@@ -47,7 +47,7 @@
     const nftMetadata = await actor.get_metadata();
 
     paymentInfo = {
-      transferTo: transferToAccount.owner.toString(),
+      transferTo: transferToAccount.accountId,
       nftPrice: Number(nftMetadata.price),
       currentInvestment: Number(nftMetadata.total_supply * nftMetadata.price)
     };
@@ -61,7 +61,7 @@
     const nftMetadata = await actor.get_metadata();
 
     paymentInfo = {
-      transferTo: transferToAccount.owner.toString(),
+      transferTo: transferToAccount.accountId ,
       nftPrice: Number(nftMetadata.price),
       currentInvestment: Number(nftMetadata.total_supply * nftMetadata.price)
     };

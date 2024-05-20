@@ -9,8 +9,11 @@ export const idlFactory = ({ IDL }) => {
         [],
         [
           IDL.Record({
-            'owner' : IDL.Principal,
-            'subaccount' : IDL.Vec(IDL.Nat8),
+            'accountId' : IDL.Text,
+            'account' : IDL.Record({
+              'owner' : IDL.Principal,
+              'subaccount' : IDL.Vec(IDL.Nat8),
+            }),
           }),
         ],
         ['query'],
