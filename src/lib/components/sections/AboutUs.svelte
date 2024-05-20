@@ -9,7 +9,7 @@
 		class="h-full bg-white text-black flex flex-col items-start justify-center gap-8 xl:px-32 px-8 py-16"
 	>
 		<div class="font-semibold text-xl lg:text-4xl">About Us</div>
-		<div class="font-semibold text-3xl lg:text-7xl text-green-500">
+		<div class="font-semibold text-3xl lg:text-7xl text-primary">
 			Decentralized <br /> ridesharing
 		</div>
 		<div class="lg:text-xl text-lg">
@@ -43,7 +43,7 @@
 	>
 		<div class="flex items-start gap-4">
 			<div class="flex items-center justify-center lg:h-12 lg:w-12 h-9">
-				<div class="lg:h-6 lg:w-6 h-4 w-4 rounded-full bg-green-500"></div>
+				<div class="lg:h-6 lg:w-6 h-4 w-4 rounded-full bg-primary"></div>
 			</div>
 			<div class="flex flex-col gap-2">
 				<div class="font-semibold lg:text-5xl text-3xl">Decentralized <br /> control</div>
@@ -54,7 +54,7 @@
 		</div>
 		<div class="flex items-start gap-4">
 			<div class="flex items-center justify-center lg:h-12 lg:w-12 h-9">
-				<div class="lg:h-6 lg:w-6 h-4 w-4 rounded-full bg-green-500"></div>
+				<div class="lg:h-6 lg:w-6 h-4 w-4 rounded-full bg-primary"></div>
 			</div>
 			<div class="flex flex-col gap-2">
 				<div class="font-semibold lg:text-5xl text-3xl">Premium experience, <br /> guaranteed</div>
@@ -66,7 +66,7 @@
 		</div>
 		<div class="flex items-start gap-4">
 			<div class="flex items-center justify-center lg:h-12 lg:w-12 h-9">
-				<div class="lg:h-6 lg:w-6 h-4 w-4 rounded-full bg-green-500"></div>
+				<div class="lg:h-6 lg:w-6 h-4 w-4 rounded-full bg-primary"></div>
 			</div>
 			<div class="flex flex-col gap-2">
 				<div class="font-semibold lg:text-5xl text-3xl">

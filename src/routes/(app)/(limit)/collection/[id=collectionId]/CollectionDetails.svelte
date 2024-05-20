@@ -6,26 +6,28 @@
 	const renVal = (n: number | string, pre = '€') =>
 		n === '--' ? '--' : `${pre ? pre + ' ' : ''} ${n}`;
 
-	$: description = metadata.description || '';
-	$: weight = metadata.weight || '';
-	$: driveType = metadata.drive_type || '';
-	$: displays = metadata.displays || '';
-	$: seating = metadata.seating || '';
-	$: cargo = metadata.cargo || '';
-	$: overallHeight = metadata.overall_height || '';
-	$: overallWidth = metadata.overall_width || '';
-	$: trackFront = metadata.track_front || '';
-	$: groundClearance = metadata.ground_clearance || '';
-	$: keyFeatures = metadata.key_features || '';
-	$: rangePerCharge = metadata.range_per_charge || '';
-	$: trackRear = metadata.track_rear || '';
-	$: acceleration = metadata.acceleration || '';
-	$: chargingSpeed = metadata.charging_speed || '';
-	$: wheels = metadata.wheels || '';
-	$: purchasePrice = metadata.purchase_price || '';
+	$: description = metadata.description || 'No description provided';
+	$: weight = metadata.weight || '-- Kg';
+	$: driveType = metadata.drive_type || 'Electric';
+	$: displays = metadata.displays || 'N/A';
+	$: seating = metadata.seating || '5 Seater';
+	$: cargo = metadata.cargo || '-- L';
+	$: overallHeight = metadata.overall_height || '-- mm';
+	$: overallWidth = metadata.overall_width || '-- mm';
+	$: trackFront = metadata.track_front || 'N/A';
+	$: groundClearance = metadata.ground_clearance || 'N/A';
+	$: keyFeatures = metadata.key_features[0]
+		? metadata.key_features
+		: ['Tesla Autopilot', '0-60 in 3.2s'];
+	$: rangePerCharge = metadata.range_per_charge || '-- Km';
+	$: trackRear = metadata.track_rear || 'N/A';
+	$: acceleration = metadata.acceleration || '0-60 in 3.2s';
+	$: chargingSpeed = metadata.charging_speed || '400 Kw';
+	$: wheels = metadata.wheels || '18"';
+	$: purchasePrice = metadata.purchase_price || 'N/A';
 	$: brochureUrl = metadata.brochure_url || '';
-	$: battery = metadata.battery || '';
-	$: overallLength = metadata.overall_length || '';
+	$: battery = metadata.battery || '-- KwH';
+	$: overallLength = metadata.overall_length || '-- mm';
 </script>
 
 <div class="flex flex-col gap-8 py-4">
@@ -68,7 +70,7 @@
 		</div>
 		<div class="flex flex-col">
 			<div class="font-bold">Key Features</div>
-			<div>{keyFeatures}</div>
+			<div>{keyFeatures.join(', ')}</div>
 		</div>
 		<div class="flex flex-col">
 			<div class="font-bold">Range Per Charge</div>

@@ -29,8 +29,8 @@
 		{#if desc}
 			<div class="text-sm line-clamp-2 h-max">{desc} <br /><br /></div>
 		{:else}
-			<div class="text-sm">Location: --</div>
-			<div class="text-sm">-- Beds | -- Baths | -- sq. ft.</div>
+			<div class="text-sm"><span class="font-medium">Location:</span> Spain</div>
+			<div class="text-sm">-- Year | -- Seats | -- Km Range</div>
 		{/if}
 	</div>
 </a>
