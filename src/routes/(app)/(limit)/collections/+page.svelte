@@ -71,12 +71,8 @@
 			<Dropdown
 				title="Location"
 				options={[
-					{ value: 'texas', label: 'Texas' },
-					{ value: 'winnipeg', label: 'Winnipeg' },
-					{ value: 'new york', label: 'New York' },
-					{ value: 'california', label: 'California' },
-					{ value: 'florida', label: 'Florida' },
-					{ value: 'colorado', label: 'Colorado' }
+					{ value: 'Spain', label: 'Spain' },
+					{ value: 'Rome', label: 'Rome' }
 				]}
 			>
 				<LocationIcon slot="leading" />
