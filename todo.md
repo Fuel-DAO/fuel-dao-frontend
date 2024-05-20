@@ -1,0 +1,25 @@
+#Backend
+
+- [ ] Ability to login using plug
+- [ ] Ability to list NFTs across collection
+- [ ] Can create a new collection ??
+  - Name
+  - Description
+  - Banner
+  - Thumbnail
+  - Banner
+  - Avatar ??
+- [ ] Can create a new listing
+  - Name
+  - Collection
+  - Short_Description
+  - Breif_Description
+  - Keywords
+  - Website URL
+  - Social Links: TG, Discord, Twitter, Medium, DSCVR, Distrikt
+  - Avatar
+  - Payment Info
+- [ ] Can edit, delete listing
+- [ ] User can purchase/buy a listing
+- [ ] View my purchases
+- [ ] User profile ???

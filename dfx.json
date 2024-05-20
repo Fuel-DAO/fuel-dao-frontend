@@ -1,0 +1,12 @@
+{
+	"version": 1,
+	"canisters": {
+		"webclient": {
+			"frontend": {
+				"entrypoint": "./build/index.html"
+			},
+			"source": ["./build"],
+			"type": "assets"
+		}
+	}
+}

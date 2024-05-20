@@ -1,0 +1,49 @@
+name: Deploy Web-Client
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - "src/**"
+      - ".github/workflows/webclient-deploy.yml"
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  web-client-deploy-dapp:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: "npm"
+
+      - name: Install dependencies
+        shell: bash
+        run: npm install
+
+      - name: Install dfx
+        uses: dfinity/setup-dfx@main
+        with:
+          dfx-version: "0.16.1"
+
+      - name: Confirm successful installation
+        run: dfx --version
+
+      - name: Build webclient app
+        run: npm run build
+
+      - name: Setup env to deploy
+        run: |
+          touch actions_identity.pem
+          echo "${{ secrets.FUEL_DAO_CANISTER_CONTROLLER_PRIVATE_KEY }}" > actions_identity.pem
+          dfx identity import --storage-mode plaintext actions actions_identity.pem
+          rm actions_identity.pem
+          dfx identity use actions
+
+      - name: Deploy built webclient app on IC
+        run: dfx deploy webclient --network ic
