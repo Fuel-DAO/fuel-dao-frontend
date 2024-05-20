@@ -16,17 +16,13 @@
 		{
 			value: 'upcoming',
 			label: 'Upcoming'
-		},
-		{
-			value: 'sold-out',
-			label: 'Sold out'
 		}
 	];
 </script>
 
 <div>
 	<div class="sm:hidden">
-		<Dropdown title="Availablity" {options} value={selected || defaultValue}>
+		<Dropdown title="Availability" {options} value={selected || defaultValue}>
 			<HomeIcon slot="leading" />
 		</Dropdown>
 	</div>
