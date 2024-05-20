@@ -15,6 +15,7 @@
 	// export let showWarning = false;
 	export let minterCanId: string;
 
+  const TRANSFER_PRICE = 10_000n;
 	let nftToBuy = 1;
 	let initLoading = true;
 	let nnsAccountId = '';
@@ -22,85 +23,48 @@
 	let paymentInfo = {
 		transferTo: '',
 		nftPrice: 0,
-		currentInvestment: 0
+    currentInvestment: 0
 	};
 
 	let pollInterval: ReturnType<typeof setInterval>;
-	let step: 1 | 2 | 3 | 4 = 1;
+	let step: 1 | 2 | 3 = 1;
 	let paymentStatus = 'pending';
 
 	async function checkPaymentStatus() {
 		const actor = nftCanister(minterCanId);
-		const res = await (actor as any).primary_sale();
-		console.log({ paymentRes: res });
-		if ('Ok' in res) {
-			paymentStatus = 'completed';
+		const escrowBalance = await actor.get_escrow_balance();
+    if ( escrowBalance >= nftToBuy * paymentInfo.nftPrice + Number(TRANSFER_PRICE) ) {
+      const res = await actor.mint({ subaccount: [], quantity: BigInt(nftToBuy) });
+      if ( 'Ok' in res ) {
+        paymentStatus = 'completed';
+      }
 		}
 	}
 
 	async function startPoll() {
 		const actor = nftCanister(minterCanId);
-		const details = await (actor as any).get_payment_details();
-		if ('Ok' in details) {
-			paymentInfo = {
-				transferTo: details.Ok[0],
-				nftPrice: Number(details.Ok[1]),
-				currentInvestment: Number(details.Ok[2])
-			};
-		}
+		const transferToAccount = await actor.get_escrow_account();
+    const nftMetadata = await actor.get_metadata();
+
+    paymentInfo = {
+      transferTo: transferToAccount.owner.toString(),
+      nftPrice: Number(nftMetadata.price),
+      currentInvestment: Number(nftMetadata.total_supply * nftMetadata.price)
+    };
+
 		pollInterval = setInterval(() => checkPaymentStatus(), 5000);
-	}
-
-	async function saveNnsAccountId() {
-		initLoading = true;
-		initError = '';
-		if (!nnsAccountId) return;
-		try {
-			if (!isPrincipal(nnsAccountId)) {
-				initError =
-					'Invalid principal. Please copy the correct principal from NNS Dapp settings page.';
-				return false;
-			}
-			const actor = nftCanister(minterCanId);
-			const res = await (actor as any).update_NNS_account(Principal.from(nnsAccountId));
-			console.log({ update_NNS_account: res });
-			if ('Ok' in res) {
-				step = 3;
-			} else {
-				initLoading = false;
-			}
-		} catch {
-			initError = 'Something went wrong, please try again!';
-		} finally {
-			initLoading = false;
-		}
-	}
-
-	async function init() {
-		try {
-			const actor = await nftCanister(minterCanId);
-			const res = await (actor as any).get_NNS_account();
-			console.log({ get_NNS_account: res });
-			if ('Ok' in res) {
-				nnsAccountId = res.Ok.toString();
-				step = 3;
-			}
-		} finally {
-			initLoading = false;
-		}
 	}
 
 	async function getPaymentInfo() {
 		const actor = nftCanister(minterCanId);
-		const details = await (actor as any).get_payment_details();
-		console.log({ get_payment_details: details });
-		if ('Ok' in details) {
-			paymentInfo = {
-				transferTo: details.Ok[0],
-				nftPrice: Number(details.Ok[1]),
-				currentInvestment: Number(details.Ok[2])
-			};
-		}
+		const transferToAccount = await actor.get_escrow_account();
+    const nftMetadata = await actor.get_metadata();
+
+    paymentInfo = {
+      transferTo: transferToAccount.owner.toString(),
+      nftPrice: Number(nftMetadata.price),
+      currentInvestment: Number(nftMetadata.total_supply * nftMetadata.price)
+    };
 	}
 
 	async function copy(text: string) {
@@ -111,10 +75,9 @@
 		}
 	}
 
-	$: step === 2 && init();
-	$: step === 3 && getPaymentInfo();
-	$: step === 4 && startPoll();
-	$: (step !== 4 || paymentStatus === 'completed') && clearInterval(pollInterval);
+	$: step === 2 && getPaymentInfo();
+	$: step === 3 && startPoll();
+	$: (step !== 3 || paymentStatus === 'completed') && clearInterval(pollInterval);
 
 	onDestroy(() => clearInterval(pollInterval));
 </script>
@@ -131,7 +94,7 @@
 		<button on:click={() => (show = false)} class="absolute top-4 right-4 z-[2]">
 			<PlusIcon class="h-5 w-5 rotate-45" />
 		</button>
-		<div class="text-3xl">{step === 4 ? 'Pay' : 'Invest'}</div>
+		<div class="text-3xl">{step === 3 ? 'Pay' : 'Invest'}</div>
 
 		{#if !$authState.isLoggedIn}
 			<div class="flex flex-col gap-8 items-center">
@@ -147,41 +110,8 @@
 				</div>
 			</div>
 		{:else if step === 2}
-			<div>
-				{#if initLoading}
-					<PlusIcon class="h-5 w-5 animate-spin" />
-				{:else}
-					<form on:submit|preventDefault={saveNnsAccountId} class="flex flex-col gap-4">
-						<div class="font-md font-medium">
-							You need to link your NNS Dapp account to continue
-						</div>
-
-						<div class="flex flex-col gap-2">
-							<Input
-								bind:value={nnsAccountId}
-								label="NNS Principal ID"
-								required
-								placeholder="Enter NNS principal ID"
-							/>
-							{#if initError}
-								<div class="text-xs text-red-500">{initError}</div>
-							{/if}
-							<div class="text-sm">
-								Note: Please make sure funds are always transferred from this account. You can visit <a
-									class="underline"
-									href="https://nns.ic0.app/settings/"
-									target="_blank">this link</a
-								> to get the ID.
-							</div>
-						</div>
-
-						<Button submit>Link</Button>
-					</form>
-				{/if}
-			</div>
-		{:else if step === 3}
 			<form
-				on:submit|preventDefault={() => (step = 4)}
+				on:submit|preventDefault={() => (step = 3)}
 				class="flex w-full flex-col items-center gap-12"
 			>
 				<div class="w-full gap-8 flex flex-col">
@@ -201,19 +131,15 @@
 						type="number"
 						placeholder="(in USD)"
 					/>
-					<div>
-						<span class="text-sm font-medium leading-6 text-gray-900">Linked NNS Account ID:</span>
-						<div>{nnsAccountId}</div>
-					</div>
 					<hr />
 					<div class="flex w-full items-center justify-between text-sm gap-4">
 						<div>Amount to pay:</div>
-						<div class="font-bold">{nftToBuy * fromE8s(paymentInfo.nftPrice)} ICP</div>
+						<div class="font-bold">{nftToBuy * fromE8s(paymentInfo.nftPrice) + fromE8s(TRANSFER_PRICE)} ICP</div>
 					</div>
 				</div>
 				<Button submit>Proceed to payment</Button>
 			</form>
-		{:else if step === 4}
+		{:else if step === 3}
 			<div class="flex flex-col w-full items-center gap-4 text-sm">
 				{#if paymentStatus === 'completed'}
 					<div class="flex flex-col items-center justify-center gap-4 h-full w-full">
