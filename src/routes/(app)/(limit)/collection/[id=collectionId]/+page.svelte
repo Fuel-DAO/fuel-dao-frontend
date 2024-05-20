@@ -13,7 +13,7 @@
 	const { minterCanId } = getCollectionId();
 
 	$: metadata = data.metadata;
-	$: _images = metadata.images
+	$: _images = metadata?.images?.length
 		? metadata.images
 		: ['https://source.unsplash.com/random/?car', 'https://source.unsplash.com/random/?car'];
 	$: images = (_images || []).reduce((acc, _c, i, v) => {
