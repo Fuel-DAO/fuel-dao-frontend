@@ -56,6 +56,10 @@
 	}
 </script>
 
+<svelte:head>
+	<title>FuelDAO | Login</title>
+</svelte:head>
+
 <div
 	class="flex flex-col overflow-hidden h-screen w-full items-center justify-center pb-20 gap-4 relative"
 >
