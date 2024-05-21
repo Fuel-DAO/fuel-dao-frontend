@@ -31,6 +31,7 @@
 	let showData = false;
 	let unauthorized = false;
 	let collectionMetadata: CollectionMetadata;
+	let successMessage = '';
 
 	let basicInfoData: BasicInfoData;
 	let collectionInfoData: CollectionInfoData;
@@ -40,6 +41,7 @@
 	async function editData() {
 		if (loading) return;
 		try {
+			successMessage = '';
 			loading = true;
 			const actor = nftCanister(minterCanId);
 			await actor.update_metadata(
@@ -52,6 +54,7 @@
 					collectionMetadata
 				)[0]
 			);
+			successMessage = 'Changes saved successfully';
 		} finally {
 			loading = false;
 		}
@@ -88,6 +91,7 @@
 	{:else}
 		<FormHeader
 			title="Edit collection"
+			{successMessage}
 			bind:loading
 			on:cancel={() => history.back()}
 			on:save={() => editData()}

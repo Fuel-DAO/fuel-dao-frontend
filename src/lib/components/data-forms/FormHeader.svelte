@@ -7,10 +7,12 @@
 	import Button from '$lib/components/button/Button.svelte';
 	import TabItem from '$lib/components/tab/TabItem.svelte';
 	import { createEventDispatcher } from 'svelte';
+	import { fade } from 'svelte/transition';
 
 	export let selected: SelectedTab = 'basic';
 	export let title: string;
 	export let loading = false;
+	export let successMessage = '';
 
 	const dispatch = createEventDispatcher<{
 		cancel: void;
@@ -24,7 +26,10 @@
 			<div class="text-4xl">{title}</div>
 			<slot name="subtitle" />
 		</div>
-		<div class="mt-3 flex gap-3">
+		<div class="mt-3 flex gap-3 items-center">
+			{#if successMessage}
+				<div in:fade class="text-xs text-green-500 font-medium pr-4">{successMessage}</div>
+			{/if}
 			<Button on:click={() => dispatch('cancel')} secondary>Cancel</Button>
 			<Button {loading} on:click={() => dispatch('save')}>Submit</Button>
 		</div>
