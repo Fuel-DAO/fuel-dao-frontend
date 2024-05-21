@@ -18,7 +18,7 @@
 	}
 </script>
 
-<div class="flex flex-col gap-8 py-4">
+<div class="flex flex-col gap-8 pt-4 pb-32">
 	<div class="rounded-2xl shadow-lg py-4 flex flex-col gap-5">
 		{#each metadata.documents as [name, path], i}
 			<div
