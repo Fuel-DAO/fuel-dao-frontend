@@ -26,7 +26,9 @@
 	$: acceleration = metadata.acceleration || '0-60 in 3.2s';
 	$: chargingSpeed = metadata.charging_speed || '400';
 	$: wheels = metadata.wheels || '18"';
-	$: purchasePrice = metadata.purchase_price?.toLocaleString() || 'N/A';
+	$: purchasePrice = metadata.purchase_price
+		? metadata.purchase_price?.toLocaleString() || '--'
+		: '--';
 	$: brochureUrl = metadata.brochure_url || '';
 	$: battery = metadata.battery || '-- KwH';
 </script>
