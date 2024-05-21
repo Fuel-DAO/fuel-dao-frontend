@@ -30,8 +30,8 @@
 				<button on:click={() => viewDoc(path)} class="underline text-lg">View</button>
 			</div>
 		{:else}
-			<div class="flex items-center justify-between px-6 pb-4 border-black/10 border-b-[1px]">
-				<InfoTitle classes="font-bold" title="No documents uploaded" />
+			<div class="flex items-center justify-between px-6">
+				<InfoTitle classes="font-light" title="No documents uploaded" />
 			</div>
 		{/each}
 	</div>
