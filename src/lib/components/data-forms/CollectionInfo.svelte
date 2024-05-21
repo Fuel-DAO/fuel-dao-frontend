@@ -72,7 +72,7 @@
 	/>
 	<Input
 		disabled={loading}
-		label="key Features (separate by comma)"
+		label="Key Features (separate by comma)"
 		type="text"
 		bind:value={data.key_features}
 	/>

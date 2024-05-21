@@ -69,26 +69,26 @@ export function getUpdateCollectionFormData(
 			documents: [documents],
 			images: [imagesInfoData.images],
 			purchase_price: [BigInt(collectionInfoData.purchase_price) || BigInt(0)],
-			weight: [collectionInfoData.weight || 0],
+			weight: [Number(collectionInfoData.weight) || 0],
 			drive_type: [collectionInfoData.drive_type || ''],
 			displays: [collectionInfoData.displays || ''],
 			seating: [collectionInfoData.seating || ''],
-			cargo: [collectionInfoData.cargo || 0],
-			overall_height: [collectionInfoData.overall_height || 0],
-			overall_width: [collectionInfoData.overall_width || 0],
-			track_front: [collectionInfoData.track_front || 0],
-			ground_clearance: [collectionInfoData.ground_clearance || 0],
+			cargo: [Number(collectionInfoData.cargo) || 0],
+			overall_height: [Number(collectionInfoData.overall_height) || 0],
+			overall_width: [Number(collectionInfoData.overall_width) || 0],
+			track_front: [Number(collectionInfoData.track_front) || 0],
+			ground_clearance: [Number(collectionInfoData.ground_clearance) || 0],
 			key_features: [
 				collectionInfoData.key_features.split(',').map((feature) => feature.trim()) || 0
 			],
-			range_per_charge: [collectionInfoData.range_per_charge || 0],
-			track_rear: [collectionInfoData.track_rear || 0],
+			range_per_charge: [Number(collectionInfoData.range_per_charge) || 0],
+			track_rear: [Number(collectionInfoData.track_rear) || 0],
 			acceleration: [collectionInfoData.acceleration || ''],
 			charging_speed: [collectionInfoData.charging_speed || ''],
-			wheels: [collectionInfoData.wheels || 0],
+			wheels: [Number(collectionInfoData.wheels) || 0],
 			brochure_url: [collectionInfoData.brochure_url || ''],
 			battery: [collectionInfoData.battery || ''],
-			overall_length: [collectionInfoData.overall_length || 0]
+			overall_length: [Number(collectionInfoData.overall_length) || 0]
 		}
 	];
 }
