@@ -1,7 +1,7 @@
 <script lang="ts" context="module">
-	export type CollectionInfoData = ReturnType<typeof init>;
+	export type CollectionInfoData = ReturnType<typeof initCollectionInfo>;
 
-	const init = (data?: CollectionMetadata) => ({
+	export const initCollectionInfo = (data?: CollectionMetadata) => ({
 		weight: data?.weight || 0,
 		drive_type: data?.drive_type || '',
 		displays: data?.displays || '',
@@ -29,7 +29,7 @@
 	import type { CollectionMetadata } from '$lib/types/nftCanister';
 
 	export let loading = true;
-	export let data: CollectionInfoData = init();
+	export let data: CollectionInfoData = initCollectionInfo();
 </script>
 
 <div class="flex flex-col gap-4">

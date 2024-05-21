@@ -18,6 +18,15 @@ export const host =
 
 export type UnionKeyOf<U> = U extends U ? keyof U : never;
 
+export const ASSET_PROXY_CANISTER_ID = process.env.CANISTER_ID_ASSET_PROXY;
+export const ASSET_CANISTER_ID = process.env.CANISTER_ID_ASSET;
+
+export function assetPath(canisterId: string, imagePath: string) {
+	return `https://${canisterId}.icp0.io${imagePath}`;
+}
+
+export const PROXY_ASSET_HOST = ``;
+
 const agentOptions = (_fetch?: typeof fetch): HttpAgentOptions => {
 	const authHelperData = get(authHelper);
 	return {

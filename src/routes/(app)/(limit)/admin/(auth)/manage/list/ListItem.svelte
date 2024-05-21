@@ -9,6 +9,8 @@
 </script>
 
 <script lang="ts">
+	import { ASSET_CANISTER_ID, assetPath } from '$lib/backend';
+
 	export let formData: FormMetadataWithId;
 </script>
 
@@ -16,8 +18,8 @@
 	<div class="flex min-w-0 gap-x-4">
 		{#if formData.metadata?.[0]?.logo}
 			<img
-				class="h-12 w-12 flex-none rounded-full bg-gray-50"
-				src={formData.metadata[0].logo}
+				class="h-12 w-12 flex-none rounded-full bg-gray-50 object-cover"
+				src={assetPath(ASSET_CANISTER_ID, formData.metadata[0].logo)}
 				alt=""
 			/>
 		{:else}

@@ -1,15 +1,17 @@
 <script lang="ts">
-	import { onMount } from 'svelte';
-	import { provisionCanisterV2 } from '$lib/backend';
-	import PlusIcon from '$lib/components/icons/PlusIcon.svelte';
 	import { page } from '$app/stores';
-	import ItemInfo from './ItemInfo.svelte';
+	import { ASSET_CANISTER_ID, assetPath, provisionCanisterV2 } from '$lib/backend';
+	import Button from '$lib/components/button/Button.svelte';
+	import PlusIcon from '$lib/components/icons/PlusIcon.svelte';
+	import type { _SERVICE } from '$lib/declarations/provision/provision.did';
+	import { fromE8s } from '$lib/utils/icp';
+	import { onMount } from 'svelte';
 	import Attachments from './Attachments.svelte';
 	import FormHeader from './FormHeader.svelte';
 	import InfoSection from './InfoSection.svelte';
-	import Button from '$lib/components/button/Button.svelte';
-	import { fromE8s } from '$lib/utils/icp';
-	import type { _SERVICE } from '$lib/declarations/provision/provision.did';
+	import ItemInfo from './ItemInfo.svelte';
+	import Icon from '$lib/components/icon/Icon.svelte';
+	import DocumentIcon from '$lib/components/icons/DocumentIcon.svelte';
 
 	let formData: Awaited<ReturnType<_SERVICE['get_request_info']>>[0];
 	let pageLoading = true;
@@ -21,6 +23,7 @@
 	};
 
 	$: id = $page.params.id;
+	$: invalid = !formData?.metadata[0]?.price;
 
 	async function fetchForm() {
 		pageLoading = true;
@@ -38,15 +41,13 @@
 			const actor = provisionCanisterV2();
 			if (approve) {
 				const res = await actor.approve_request(BigInt(id));
-				if (!('Ok' in res)) throw 'Error';
-				// if ('CanisterId' in res.Ok) {
-				// 	canId = {
-				// 		assetCanId: res.Ok.CanisterId.asset_canister.toString(),
-				// 		minterCanId: res.Ok.CanisterId.minter_canister.toString()
-				// 	};
-				// }
+				if ('Ok' in res) {
+					canId = {
+						assetCanId: res.Ok.asset_canister.toString(),
+						minterCanId: res.Ok.token_canister.toString()
+					};
+				} else throw 'Error';
 				approved = true;
-				// actor.grant_commit_permission($authState.isLoggedIn)
 			} else {
 				const res = await actor.reject_request(BigInt(id));
 				if (!('Ok' in res)) throw 'Error';
@@ -57,22 +58,38 @@
 		}
 	}
 
+	function viewDoc(path: string) {
+		const url = `https://${ASSET_CANISTER_ID}.icp0.io${path}`;
+		const a = document.createElement('a');
+		a.href = url;
+		a.target = '_blank';
+		document.body.appendChild(a);
+		a.click();
+		document.body.removeChild(a);
+	}
+
 	onMount(fetchForm);
 </script>
 
 {#if pageLoading}
 	<div class="flex items-center justify-center py-8">
-		<PlusIcon class="w-6 h-6 animate-spin" />
+		<PlusIcon class="w-5 h-5 animate-spin" />
 	</div>
 {:else if formData}
 	<div class="flex flex-col gap-8 divide-y divide-gray-300">
 		<InfoSection>
 			<FormHeader slot="header" title="Basic details" subtitle={`Form ID: ${id}`}>
 				<div class="flex gap-2 items-center">
-					<Button disabled={loading || approved} on:click={() => approve(false)} secondary>
+					<Button
+						disabled={loading || approved || invalid}
+						on:click={() => approve(false)}
+						secondary
+					>
 						Decline
 					</Button>
-					<Button disabled={loading || approved} on:click={() => approve(true)}>Approve</Button>
+					<Button disabled={loading || approved || invalid} on:click={() => approve(true)}>
+						Approve
+					</Button>
 				</div>
 			</FormHeader>
 
@@ -86,28 +103,92 @@
 			{/if}
 
 			<ItemInfo title="Collection name" value={formData.metadata?.[0]?.name} />
-			<ItemInfo title="Description" value={formData.metadata?.[0]?.description} />
+			<ItemInfo title="Description" value={formData.metadata?.[0]?.description || '---'} />
 			<ItemInfo
 				title="Price"
 				value={`${fromE8s(formData.metadata?.[0]?.price)} ICP (${formData.metadata?.[0]?.price || 0})`}
 			/>
 			<ItemInfo title="Supply cap" value={formData.metadata?.[0]?.supply_cap} />
-			<ItemInfo title="Submitted by" value={formData.collection_owner.toString()} />
+			<ItemInfo title="Treasury Principal ID" value={formData.metadata?.[0]?.treasury.toText()} />
+			<ItemInfo title="Submitted by" value={formData.collection_owner.toText()} />
+			<ItemInfo title="Symbol" value={formData.metadata?.[0]?.symbol} />
+		</InfoSection>
+		<InfoSection>
+			<FormHeader slot="header" title="Collection assets" />
+			<ItemInfo title="Logo">
+				<div
+					class="h-[14rem] w-[14rem] p-2 border rounded relative flex items-center justify-center"
+				>
+					{#if formData.metadata?.[0]?.logo}
+						<img
+							src={assetPath(ASSET_CANISTER_ID, formData.metadata[0].logo)}
+							class="h-full w-full rounded-md object-contain"
+							alt="logo"
+						/>
+					{:else}
+						<div class="flex flex-1 items-center justify-center">No logo added</div>
+					{/if}
+				</div>
+			</ItemInfo>
 			<ItemInfo title="Images">
 				<div
 					class="h-[14rem] border rounded p-2 items-center w-full overflow-hidden overflow-x-auto flex gap-2"
 				>
-					{#if formData.metadata?.[0]?.documents}
-						{@const images = formData.metadata?.[0]?.documents}
-						{#each images as [_, src], i}
+					{#if formData.metadata?.[0]?.images}
+						{@const images = formData.metadata?.[0]?.images}
+						{#each images as path, i}
 							<div class="p-1 shrink-0 border rounded-md w-52 h-52 relative">
-								<img {src} class="h-full w-full rounded-md object-contain" alt={i + ' image'} />
+								<img
+									src={assetPath(ASSET_CANISTER_ID, path)}
+									class="h-full w-full rounded-md object-contain"
+									alt={i + ' image'}
+								/>
 							</div>
 						{:else}
 							<div class="flex flex-1 items-center justify-center">No images added</div>
 						{/each}
 					{/if}
 				</div>
+			</ItemInfo>
+		</InfoSection>
+		<InfoSection>
+			<ItemInfo title="Documents">
+				{#if formData.metadata?.[0]?.documents?.[0]?.length}
+					<div
+						class="h-[14rem] border rounded p-2 items-center w-full overflow-hidden overflow-x-auto flex gap-2"
+					>
+						{#each formData.metadata[0].documents as [name, path], i}
+							<div class="p-1 shrink-0 border rounded-md w-64 h-52 relative transition-opacity">
+								<button
+									on:click={() => viewDoc(path)}
+									class="bg-gray-200 z-[2] rounded-full flex items-center justify-center w-6 h-6 absolute top-2 left-2"
+								>
+									<Icon name="eye" class="h-4 w-4" />
+								</button>
+								<div
+									class="h-full w-full relative flex items-center justify-center bg-gradient-to-t from-gray-100 to-white"
+								>
+									<DocumentIcon class="h-6 w-6" />
+									<div
+										class="absolute bottom-0 inset-x-0 bg-gradient-to-t from-gray-300 to-transparent p-2"
+									>
+										<div
+											class="flex items-center justify-between bg-white border py-1 px-2 rounded w-full"
+										>
+											<p class="text-xs text-gray-900">
+												{name || path.split('\\')?.pop()?.split('/').pop() || ''}
+											</p>
+										</div>
+									</div>
+								</div>
+							</div>
+						{:else}
+							<div class="flex flex-1 items-center justify-center">No documents uploaded yet</div>
+						{/each}
+					</div>
+				{:else}
+					<div class="flex flex-1 items-center justify-center">No documents uploaded</div>
+				{/if}
 			</ItemInfo>
 		</InfoSection>
 
@@ -136,14 +217,6 @@
 				<ItemInfo title="Brochure URL" value={formData.metadata?.[0]?.brochure_url[0]} />
 				<ItemInfo title="Battery" value={formData.metadata?.[0]?.battery[0]} />
 				<ItemInfo title="Overall Length" value={formData.metadata?.[0]?.overall_length[0]} />
-			</InfoSection>
-			<InfoSection>
-				<FormHeader slot="header" title="Documents" />
-				{#if formData.metadata?.[0]?.documents?.[0]?.length}
-					<Attachments docs={formData.metadata?.[0]?.documents} />
-				{:else}
-					<ItemInfo title="Attachments" value="No documents uploaded" />
-				{/if}
 			</InfoSection>
 		{/if}
 	</div>

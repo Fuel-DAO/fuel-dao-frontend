@@ -6,6 +6,8 @@
 	import { tick } from 'svelte';
 	import logo from '$lib/assets/logo.svg';
 	import { adminStore } from '$lib/stores/admin';
+	import { provisionCanisterV2 } from '$lib/backend';
+	import { Principal } from '@dfinity/principal';
 
 	const IDENTITY_PROVIDER =
 		import.meta.env.NODE_ENV === 'dev'
@@ -16,6 +18,21 @@
 		import.meta.env.NODE_ENV === 'dev' ? undefined : 'https://67erj-tiaaa-aaaam-acnxa-cai.icp0.io';
 
 	let error = '';
+
+	async function checkIfAdmin() {
+		const actor = provisionCanisterV2();
+		const res = await actor.is_admin([Principal.from($authState.idString)]);
+		if (res) {
+			$adminStore = {
+				isLoggedIn: true,
+				key: $authState.idString || ''
+			};
+		}
+	}
+
+	$: if ($authState.isLoggedIn) {
+		checkIfAdmin();
+	}
 
 	async function handleSuccessfulLogin() {
 		try {

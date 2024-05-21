@@ -19,7 +19,7 @@
 	};
 
 	let loading = true;
-	let nfts: CollectionDetails[] = [];
+	let collections: CollectionDetails[] = [];
 
 	async function fetchNftDetail(id: CollectionId): Promise<CollectionDetails | undefined> {
 		try {
@@ -51,7 +51,7 @@
 					minterCanId: o.token_canister.toText()
 				}))
 			);
-			nfts = res;
+			collections = res;
 		} catch (error) {
 			console.error(error);
 		} finally {
@@ -61,6 +61,10 @@
 
 	onMount(fetchCollections);
 </script>
+
+<svelte:head>
+	<title>FuelDAO | Collections</title>
+</svelte:head>
 
 <div class="py-4 sticky top-20 z-40">
 	<div
@@ -99,14 +103,8 @@
 	</div>
 {:else}
 	<div class="flex py-12 items-center gap-8 justify-normal mx-auto flex-wrap">
-		{#each nfts as nft, i}
-			<Card
-				status="Live"
-				href={`/collection/${nft.id.minterCanId}@${nft.id.assetCanId}`}
-				title={nft.name}
-				desc={nft.description}
-				imgSrc={`https://source.unsplash.com/random/?car`}
-			/>
+		{#each collections as data}
+			<Card href={`/collection/${data.id.minterCanId}@${data.id.assetCanId}`} {data} />
 		{/each}
 	</div>
 {/if}

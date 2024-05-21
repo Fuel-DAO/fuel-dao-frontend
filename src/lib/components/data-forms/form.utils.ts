@@ -5,22 +5,26 @@ import { Principal } from '@dfinity/principal';
 import type { BasicInfoData } from './BasicInfo.svelte';
 import type { CollectionInfoData } from './CollectionInfo.svelte';
 import type { CollectionMetadata } from '$lib/types/nftCanister';
+import type { ImagesInfoData } from './ImagesInfo.svelte';
+import { isPrincipal } from '$lib/utils/isPrincipal';
 
 export function getNewCollectionFormData(
 	basicInfoData: BasicInfoData,
-	collectionInfoData: CollectionInfoData
+	collectionInfoData: CollectionInfoData,
+	imagesInfoData: ImagesInfoData,
+	documents: CollectionMetadata['documents']
 ): Parameters<PROVISION_SERVICE['add_collection_request']>[0] {
 	return {
 		name: basicInfoData.name,
 		description: basicInfoData.description,
 		supply_cap: BigInt(basicInfoData.supplyCap),
-		logo: basicInfoData.logo,
+		logo: imagesInfoData.logo,
 		price: BigInt(toE8s(basicInfoData.price)),
 		token: Principal.from(process.env.ICP_LEDGER_CANISTER_ID),
-		symbol: 'ICP',
-		treasury: Principal.from('2vxsx-fae'),
-		documents: [],
-		images: [],
+		symbol: basicInfoData.symbol,
+		treasury: Principal.from(basicInfoData.treasury),
+		documents,
+		images: imagesInfoData.images,
 		purchase_price: BigInt(collectionInfoData.purchase_price),
 		weight: collectionInfoData.weight,
 		drive_type: collectionInfoData.drive_type,
@@ -46,6 +50,8 @@ export function getNewCollectionFormData(
 export function getUpdateCollectionFormData(
 	basicInfoData: BasicInfoData,
 	collectionInfoData: CollectionInfoData,
+	imagesInfoData: ImagesInfoData,
+	documents: CollectionMetadata['documents'],
 	assetCanisterId: Principal,
 	collectionMetadata: CollectionMetadata
 ): Parameters<TOKEN_SERVICE['update_metadata']> {
@@ -55,13 +61,13 @@ export function getUpdateCollectionFormData(
 			name: [basicInfoData.name],
 			description: [basicInfoData.description],
 			supply_cap: [BigInt(basicInfoData.supplyCap)],
-			logo: [basicInfoData.logo],
+			logo: [imagesInfoData.logo],
 			price: [BigInt(toE8s(basicInfoData.price))],
 			token: [collectionMetadata.token],
-			symbol: [collectionMetadata.symbol],
+			symbol: [basicInfoData.symbol],
 			treasury: [collectionMetadata.treasury],
-			documents: [],
-			images: [],
+			documents: [documents],
+			images: [imagesInfoData.images],
 			purchase_price: [BigInt(collectionInfoData.purchase_price) || BigInt(0)],
 			weight: [collectionInfoData.weight || 0],
 			drive_type: [collectionInfoData.drive_type || ''],
@@ -91,12 +97,18 @@ export function getInitialUpdateCollectionFormData(data: CollectionMetadata) {
 	return {
 		basicInfoData: {
 			name: data.name,
+			symbol: data.symbol,
 			description: data.description,
-			logo: data.logo,
+			treasury: data.treasury && isPrincipal(data.treasury) ? data.treasury.toText() : '',
 			price: Number(fromE8s(data.price)),
-			supplyCap: Number(data.supply_cap),
-			status: 'Live'
-		} as BasicInfoData,
+			supplyCap: Number(data.supply_cap)
+			// status: 'Live'
+		} satisfies BasicInfoData,
+		imagesInfoData: {
+			logo: data.logo,
+			images: data.images
+		} satisfies ImagesInfoData,
+		documents: data.documents,
 		collectionInfoData: {
 			purchase_price: Number(data.purchase_price) || 0,
 			weight: data.weight || 0,

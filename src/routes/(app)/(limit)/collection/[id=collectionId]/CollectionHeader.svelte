@@ -5,13 +5,14 @@
 	import Actions from './Actions.svelte';
 	import Details from './CollectionDetails.svelte';
 	import CollectionInfoCards from './CollectionInfoCards.svelte';
+	import Documents from './Documents.svelte';
 	import Tabs from './Tabs.svelte';
 	import { getCollectionId } from './collectionId.context';
 
 	export let metadata: CollectionMetadata;
 
-	const tabs = ['details'] as TabType[];
-	type TabType = 'details';
+	const tabs = ['details', 'documents'] as TabType[];
+	type TabType = 'details' | 'documents';
 	let selected: TabType = 'details';
 
 	const { id } = getCollectionId();
@@ -37,5 +38,7 @@
 	<Tabs {tabs} bind:selected />
 	{#if selected === 'details'}
 		<Details {metadata} />
+	{:else if selected === 'documents'}
+		<Documents {metadata} />
 	{/if}
 </div>

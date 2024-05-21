@@ -25,7 +25,7 @@
 	$: chargingSpeed = metadata.charging_speed || '400 Kw';
 	$: wheels = metadata.wheels || '18"';
 	$: purchasePrice = metadata.purchase_price || 'N/A';
-	$: brochureUrl = metadata.brochure_url || '';
+	$: brochureUrl = metadata.brochure_url || 'N/A';
 	$: battery = metadata.battery || '-- KwH';
 	$: overallLength = metadata.overall_length || '-- mm';
 </script>
@@ -34,84 +34,84 @@
 	<div class="grid grid-cols-3 gap-4">
 		<div class="flex flex-col">
 			<div class="font-bold">Weight</div>
-			<div>{weight}</div>
+			<div class="font-light">{weight}</div>
 		</div>
 		<div class="flex flex-col">
 			<div class="font-bold">Drive Type</div>
-			<div>{driveType}</div>
+			<div class="font-light">{driveType}</div>
 		</div>
 		<div class="flex flex-col">
 			<div class="font-bold">Displays</div>
-			<div>{displays}</div>
+			<div class="font-light">{displays}</div>
 		</div>
 		<div class="flex flex-col">
 			<div class="font-bold">Seating</div>
-			<div>{seating}</div>
+			<div class="font-light">{seating}</div>
 		</div>
 		<div class="flex flex-col">
 			<div class="font-bold">Cargo</div>
-			<div>{cargo}</div>
+			<div class="font-light">{cargo}</div>
 		</div>
 		<div class="flex flex-col">
 			<div class="font-bold">Overall Height</div>
-			<div>{overallHeight}</div>
+			<div class="font-light">{overallHeight}</div>
 		</div>
 		<div class="flex flex-col">
 			<div class="font-bold">Overall Width</div>
-			<div>{overallWidth}</div>
+			<div class="font-light">{overallWidth}</div>
 		</div>
 		<div class="flex flex-col">
 			<div class="font-bold">Track Front</div>
-			<div>{trackFront}</div>
+			<div class="font-light">{trackFront}</div>
 		</div>
 		<div class="flex flex-col">
 			<div class="font-bold">Ground Clearance</div>
-			<div>{groundClearance}</div>
+			<div class="font-light">{groundClearance}</div>
 		</div>
 		<div class="flex flex-col">
 			<div class="font-bold">Key Features</div>
-			<div>{keyFeatures.join(', ')}</div>
+			<div class="font-light">{keyFeatures.join(', ')}</div>
 		</div>
 		<div class="flex flex-col">
 			<div class="font-bold">Range Per Charge</div>
-			<div>{rangePerCharge}</div>
+			<div class="font-light">{rangePerCharge}</div>
 		</div>
 		<div class="flex flex-col">
 			<div class="font-bold">Track Rear</div>
-			<div>{trackRear}</div>
+			<div class="font-light">{trackRear}</div>
 		</div>
 		<div class="flex flex-col">
 			<div class="font-bold">Acceleration</div>
-			<div>{acceleration}</div>
+			<div class="font-light">{acceleration}</div>
 		</div>
 		<div class="flex flex-col">
 			<div class="font-bold">Charging Speed</div>
-			<div>{chargingSpeed}</div>
+			<div class="font-light">{chargingSpeed}</div>
 		</div>
 		<div class="flex flex-col">
 			<div class="font-bold">Wheels</div>
-			<div>{wheels}</div>
+			<div class="font-light">{wheels}</div>
 		</div>
 		<div class="flex flex-col">
 			<div class="font-bold">Purchase Price</div>
-			<div>{purchasePrice}</div>
+			<div class="font-light">{purchasePrice}</div>
 		</div>
 		<div class="flex flex-col">
 			<div class="font-bold">Brochure URL</div>
-			<div>{brochureUrl}</div>
+			<div class="font-light">{brochureUrl}</div>
 		</div>
 		<div class="flex flex-col">
 			<div class="font-bold">Battery</div>
-			<div>{battery}</div>
+			<div class="font-light">{battery}</div>
 		</div>
 		<div class="flex flex-col">
 			<div class="font-bold">Overall Length</div>
-			<div>{overallLength}</div>
+			<div class="font-light">{overallLength}</div>
 		</div>
 	</div>
 
 	<div class="flex flex-col">
 		<div class="font-bold">Description</div>
-		<div>{description}</div>
+		<div class="font-light">{description}</div>
 	</div>
 </div>

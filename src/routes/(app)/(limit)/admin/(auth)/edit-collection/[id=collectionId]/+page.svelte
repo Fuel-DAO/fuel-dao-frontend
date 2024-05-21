@@ -8,7 +8,7 @@
 	import { replacer } from '$lib/utils/json';
 	import type { CollectionMetadata } from '$lib/types/nftCanister';
 	import { nftCanister } from '$lib/backend';
-	import ImagesInfo from '$lib/components/data-forms/ImagesInfo.svelte';
+	import ImagesInfo, { type ImagesInfoData } from '$lib/components/data-forms/ImagesInfo.svelte';
 	import {
 		getUpdateCollectionFormData,
 		getInitialUpdateCollectionFormData
@@ -18,6 +18,8 @@
 	import Button from '$lib/components/button/Button.svelte';
 	import type { CollectionInfoData } from '$lib/components/data-forms/CollectionInfo.svelte';
 	import CollectionInfo from '$lib/components/data-forms/CollectionInfo.svelte';
+	import DocumentsInfo from '$lib/components/data-forms/DocumentsInfo.svelte';
+	import PlusIcon from '$lib/components/icons/PlusIcon.svelte';
 
 	export let data: PageData;
 
@@ -26,13 +28,14 @@
 
 	let selectedTab: SelectedTab = 'basic';
 	let loading = false;
+	let showData = false;
 	let unauthorized = false;
 	let collectionMetadata: CollectionMetadata;
 
 	let basicInfoData: BasicInfoData;
 	let collectionInfoData: CollectionInfoData;
-	let collectionImages: string[] = [];
-	// let documentsInfo: DocumentsInfo;
+	let imagesInfoData: ImagesInfoData;
+	let documents: CollectionMetadata['documents'] = [];
 
 	async function editData() {
 		if (loading) return;
@@ -43,6 +46,8 @@
 				getUpdateCollectionFormData(
 					basicInfoData,
 					collectionInfoData,
+					imagesInfoData,
+					documents,
 					Principal.from(assetCanId),
 					collectionMetadata
 				)[0]
@@ -63,6 +68,9 @@
 			}
 			const data = getInitialUpdateCollectionFormData(collectionMetadata);
 			basicInfoData = data.basicInfoData;
+			collectionInfoData = data.collectionInfoData;
+			imagesInfoData = data.imagesInfoData;
+			documents = data.documents;
 		} catch (_) {
 			console.error('Error updating metadata');
 		} finally {
@@ -88,12 +96,27 @@
 			<svelte:fragment>
 				{#if collectionMetadata}
 					{#if selectedTab === 'basic'}
-						<BasicInfo {loading} bind:data={basicInfoData} />
+						<BasicInfo edit {loading} bind:data={basicInfoData} />
 					{:else if selectedTab === 'info'}
 						<CollectionInfo {loading} bind:data={collectionInfoData} />
 					{:else if selectedTab === 'images'}
-						<ImagesInfo bind:images={collectionImages} />
+						<ImagesInfo
+							bind:loading
+							absoluteLogoPath
+							bind:data={imagesInfoData}
+							assetCanisterId={assetCanId}
+							uploadCanisterId={assetCanId}
+						/>
+					{:else if selectedTab === 'documents'}
+						<DocumentsInfo
+							bind:loading
+							bind:documents
+							assetCanisterId={assetCanId}
+							uploadCanisterId={assetCanId}
+						/>
 					{/if}
+				{:else}
+					<PlusIcon class="w-5 h-5 animate-spin" />
 				{/if}
 			</svelte:fragment>
 		</FormHeader>
@@ -101,7 +124,12 @@
 </div>
 
 {#if !unauthorized && collectionMetadata}
-	<pre transition:slide class="text-sm p-4 mt-8 bg-gray-100 rounded-xl">
+	<button class="mt-8 text-xs font-mono" on:click={() => (showData = !showData)}>
+		{showData ? '▼ Hide' : '▶︎ Show'} metadata JSON
+	</button>
+	{#if showData}
+		<pre transition:slide class="text-sm p-4 mt-8 bg-gray-100 rounded-xl">
     {JSON.stringify(collectionMetadata, replacer, 4)}
   </pre>
+	{/if}
 {/if}

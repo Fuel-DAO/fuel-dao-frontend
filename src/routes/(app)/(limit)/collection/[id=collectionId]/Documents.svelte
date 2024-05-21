@@ -1,32 +1,38 @@
-<script>
+<script lang="ts">
 	import InfoTitle from './InfoTitle.svelte';
+	import type { CollectionMetadata } from '$lib/types/nftCanister';
+	import { getCollectionId } from './collectionId.context';
+
+	export let metadata: CollectionMetadata;
+
+	const { assetCanId } = getCollectionId();
+
+	function viewDoc(path: string) {
+		const url = `https://${assetCanId}.icp0.io${path}`;
+		const a = document.createElement('a');
+		a.href = url;
+		a.target = '_blank';
+		document.body.appendChild(a);
+		a.click();
+		document.body.removeChild(a);
+	}
 </script>
 
 <div class="flex flex-col gap-8 py-4">
 	<div class="rounded-2xl shadow-lg py-4 flex flex-col gap-5">
-		<div class="flex items-center justify-between px-6 pb-4 border-black/10 border-b-[1px]">
-			<InfoTitle classes="font-bold" title="Certificate of Formation" />
-			<div class="underline text-lg">View</div>
-		</div>
-		<div class="flex items-center justify-between px-6 pb-4 border-black/10 border-b-[1px]">
-			<InfoTitle classes="font-bold" title="Offerung Memorandum" />
-			<div class="underline text-lg">View</div>
-		</div>
-		<div class="flex items-center justify-between px-6 pb-4 border-black/10 border-b-[1px]">
-			<InfoTitle classes="font-bold" title="Appraisal Report" />
-			<div class="underline text-lg">View</div>
-		</div>
-		<div class="flex items-center justify-between px-6 pb-4 border-black/10 border-b-[1px]">
-			<InfoTitle classes="font-bold" title="Inspection Report" />
-			<div class="underline text-lg">View</div>
-		</div>
-		<div class="flex items-center justify-between px-6 pb-4 border-black/10 border-b-[1px]">
-			<InfoTitle classes="font-bold" title="Operating Agreement" />
-			<div class="underline text-lg">View</div>
-		</div>
-		<div class="flex items-center justify-between px-6">
-			<InfoTitle classes="font-bold" title="Security Token Purchase Agreement" />
-			<div class="underline text-lg">View</div>
-		</div>
+		{#each metadata.documents as [name, path], i}
+			<div
+				class="flex items-center justify-between px-6 {i + 1 === metadata.documents.length
+					? ''
+					: 'pb-4 border-black/10 border-b-[1px]'}"
+			>
+				<InfoTitle classes="font-bold" title={name} />
+				<button on:click={() => viewDoc(path)} class="underline text-lg">View</button>
+			</div>
+		{:else}
+			<div class="flex items-center justify-between px-6 pb-4 border-black/10 border-b-[1px]">
+				<InfoTitle classes="font-bold" title="No documents uploaded" />
+			</div>
+		{/each}
 	</div>
 </div>
