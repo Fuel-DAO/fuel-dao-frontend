@@ -7,23 +7,21 @@
 	import { onDestroy } from 'svelte';
 	import { nftCanister } from '$lib/backend';
 	import { authState } from '$lib/stores/auth';
-	import { Principal } from '@dfinity/principal';
-	import { isPrincipal } from '$lib/utils/isPrincipal';
+
 	import { fromE8s } from '$lib/utils/icp';
 	import CopyButton from '../button/CopyButton.svelte';
 	export let show = false;
 	// export let showWarning = false;
 	export let minterCanId: string;
 
-  const TRANSFER_PRICE = 10_000n;
+	const TRANSFER_PRICE = 10_000n;
 	let nftToBuy = 1;
-	let initLoading = true;
 	let nnsAccountId = '';
-	let initError = '';
 	let paymentInfo = {
+		loaded: false,
 		transferTo: '',
 		nftPrice: 0,
-    currentInvestment: 0
+		currentInvestment: 0
 	};
 
 	let pollInterval: ReturnType<typeof setInterval>;
@@ -33,24 +31,25 @@
 	async function checkPaymentStatus() {
 		const actor = nftCanister(minterCanId);
 		const escrowBalance = await actor.get_escrow_balance();
-    if ( escrowBalance >= nftToBuy * paymentInfo.nftPrice + Number(TRANSFER_PRICE) ) {
-      const res = await actor.mint({ subaccount: [], quantity: BigInt(nftToBuy) });
-      if ( 'Ok' in res ) {
-        paymentStatus = 'completed';
-      }
+		if (escrowBalance >= nftToBuy * paymentInfo.nftPrice + Number(TRANSFER_PRICE)) {
+			const res = await actor.mint({ subaccount: [], quantity: BigInt(nftToBuy) });
+			if ('Ok' in res) {
+				paymentStatus = 'completed';
+			}
 		}
 	}
 
 	async function startPoll() {
 		const actor = nftCanister(minterCanId);
 		const transferToAccount = await actor.get_escrow_account();
-    const nftMetadata = await actor.get_metadata();
+		const nftMetadata = await actor.get_metadata();
 
-    paymentInfo = {
-      transferTo: transferToAccount.accountId,
-      nftPrice: Number(nftMetadata.price),
-      currentInvestment: Number(nftMetadata.total_supply * nftMetadata.price)
-    };
+		paymentInfo = {
+			loaded: true,
+			transferTo: transferToAccount.accountId,
+			nftPrice: Number(nftMetadata.price),
+			currentInvestment: Number(nftMetadata.total_supply * nftMetadata.price)
+		};
 
 		pollInterval = setInterval(() => checkPaymentStatus(), 5000);
 	}
@@ -58,13 +57,14 @@
 	async function getPaymentInfo() {
 		const actor = nftCanister(minterCanId);
 		const transferToAccount = await actor.get_escrow_account();
-    const nftMetadata = await actor.get_metadata();
+		const nftMetadata = await actor.get_metadata();
 
-    paymentInfo = {
-      transferTo: transferToAccount.accountId ,
-      nftPrice: Number(nftMetadata.price),
-      currentInvestment: Number(nftMetadata.total_supply * nftMetadata.price)
-    };
+		paymentInfo = {
+			loaded: true,
+			transferTo: transferToAccount.accountId,
+			nftPrice: Number(nftMetadata.price),
+			currentInvestment: Number(nftMetadata.total_supply * nftMetadata.price)
+		};
 	}
 
 	async function copy(text: string) {
@@ -105,16 +105,26 @@
 			<div class="flex flex-col gap-8 items-center w-full">
 				<div>Complete KYC to continue</div>
 				<iframe title="KYC" class="w-full h-[28rem] rounded-xl" src={''} />
-				<div class="text-xs text-white">
+				<div class="text-xs text-black">
 					Having issue with KYC? <button on:click={() => (step = 2)}>Click here.</button>
 				</div>
 			</div>
 		{:else if step === 2}
 			<form
 				on:submit|preventDefault={() => (step = 3)}
-				class="flex w-full flex-col items-center gap-12"
+				class="flex w-full flex-col items-center gap-12 relative"
 			>
-				<div class="w-full gap-8 flex flex-col">
+				{#if !paymentInfo.loaded}
+					<div class="absolute inset-0 flex flex-col gap-4 items-center justify-center">
+						<div>Fetching payment information</div>
+						<PlusIcon class="h-4 w-4 animate-spin" />
+					</div>
+				{/if}
+				<div
+					class="w-full gap-8 flex flex-col transition-opacity {paymentInfo.loaded
+						? 'opacity-100'
+						: 'opacity-0'}"
+				>
 					<div class="flex w-full items-center justify-between text-sm gap-4">
 						<div>NFT Price:</div>
 						<div class="font-bold">{fromE8s(paymentInfo.nftPrice)} ICP</div>
@@ -134,10 +144,12 @@
 					<hr />
 					<div class="flex w-full items-center justify-between text-sm gap-4">
 						<div>Amount to pay:</div>
-						<div class="font-bold">{nftToBuy * fromE8s(paymentInfo.nftPrice) + fromE8s(TRANSFER_PRICE)} ICP</div>
+						<div class="font-bold">
+							{nftToBuy * fromE8s(paymentInfo.nftPrice) + fromE8s(TRANSFER_PRICE)} ICP
+						</div>
 					</div>
 				</div>
-				<Button submit>Proceed to payment</Button>
+				<Button disabled={!paymentInfo.loaded} submit>Proceed to payment</Button>
 			</form>
 		{:else if step === 3}
 			<div class="flex flex-col w-full items-center gap-4 text-sm">
@@ -146,7 +158,7 @@
 						<div class="flex w-full items-start justify-between text-sm gap-4">
 							<div>Amount for NFT:</div>
 							<div class="font-bold text-xs w-1/2 break-all text-right">
-								{nftToBuy * fromE8s(paymentInfo.nftPrice)} ICP
+								{nftToBuy * fromE8s(paymentInfo.nftPrice) + fromE8s(TRANSFER_PRICE)} ICP
 							</div>
 						</div>
 						<div
@@ -158,12 +170,12 @@
 						<Button on:click={() => (show = false)}>Close</Button>
 					</div>
 				{:else}
-					{@const amount = nftToBuy * fromE8s(paymentInfo.nftPrice)}
+					{@const amount = nftToBuy * fromE8s(paymentInfo.nftPrice) + fromE8s(TRANSFER_PRICE)}
 					<div class="flex w-full items-start justify-between text-sm gap-4">
 						<div>Amount to pay:</div>
-						<div class="flex items-center gap-2">
-							<div class="font-bold whitespace-nowrap text-xs w-1/2 break-all text-right">
-								{amount} ICP
+						<div class="flex items-center gap-2 justify-end">
+							<div class="font-bold whitespace-nowrap text-xs break-all text-right">
+								<span class="select-all">{amount}</span> <span class="opacity-50">ICP</span>
 							</div>
 							<CopyButton on:click={() => copy(amount.toString())}>
 								<CopyIcon class="w-3 h-3" />
@@ -171,17 +183,9 @@
 						</div>
 					</div>
 					<div class="flex w-full items-start justify-between text-sm gap-4">
-						<div>Transferring from account:</div>
-						<div class="font-bold text-xs w-1/2 break-all text-right">
-							{nnsAccountId}
-						</div>
-					</div>
-					<hr />
-
-					<div class="flex w-full items-start justify-between text-sm gap-4">
-						<div>Transferring to:</div>
-						<div class="flex items-center gap-2">
-							<div class="font-bold text-xs w-1/2 break-all text-right">
+						<div class="text-nowrap">Transferring to:</div>
+						<div class="flex items-center gap-2 justify-end">
+							<div class="font-bold text-xs break-all select-all text-right w-1/2">
 								{paymentInfo.transferTo}
 							</div>
 							<CopyButton on:click={() => copy(paymentInfo.transferTo)}>
