@@ -87,7 +87,7 @@
 			class="bg-white/75 backdrop-blur-xl flex flex-col items-center gap-8 px-6 py-12 shadow sm:rounded-lg sm:px-12"
 		>
 			<a href="/" class="h-full">
-				<img src={logo} alt="FuelDAO" class="h-full" />
+				<img src={logo} alt="FuelDAO" class="h-full w-full" />
 			</a>
 			{#if !$authState.isLoggedIn}
 				<h2 class="text-center text-2xl font-bold leading-9 tracking-tight text-gray-900">
