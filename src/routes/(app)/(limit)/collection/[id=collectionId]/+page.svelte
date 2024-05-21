@@ -50,10 +50,10 @@
 					src={im1 ? assetPath(assetCanId, im1) : placeholder}
 					class="rounded-xl h-1/2 object-cover"
 				/>
-				{#if im1}
+				{#if im2}
 					<img
 						alt="Collection preview {i}"
-						src={assetPath(assetCanId, im1)}
+						src={assetPath(assetCanId, im2)}
 						class="rounded-xl h-1/2 object-cover"
 					/>
 				{/if}
