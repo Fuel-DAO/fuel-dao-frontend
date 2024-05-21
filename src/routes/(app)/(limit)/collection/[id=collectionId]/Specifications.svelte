@@ -34,6 +34,10 @@
 <div class="flex flex-col gap-8 py-4">
 	<div class="grid grid-cols-3 gap-4">
 		<div class="flex flex-col">
+			<div class="font-bold">Purchase price</div>
+			<div class="font-light">€ {purchasePrice.toLocaleString()}</div>
+		</div>
+		<div class="flex flex-col">
 			<div class="font-bold">Weight</div>
 			<div class="font-light">{weight} Kg</div>
 		</div>
@@ -97,10 +101,6 @@
 		<div class="flex flex-col">
 			<div class="font-bold">Wheels</div>
 			<div class="font-light">{wheels}</div>
-		</div>
-		<div class="flex flex-col">
-			<div class="font-bold">Purchase Price</div>
-			<div class="font-light">€ {purchasePrice}</div>
 		</div>
 		<div class="flex flex-col">
 			<div class="font-bold">Brochure URL</div>

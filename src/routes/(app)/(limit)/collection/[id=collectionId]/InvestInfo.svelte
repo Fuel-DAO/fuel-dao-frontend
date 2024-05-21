@@ -1,12 +1,11 @@
 <script lang="ts">
-	import { fromE8s } from '$lib/utils/icp';
 	import type { CollectionMetadata } from '$lib/types/nftCanister';
 	import Button from '$lib/components/button/Button.svelte';
 
 	export let metadata: CollectionMetadata;
 
 	$: investedPercentage = (
-		(Number(metadata.total_supply) / (fromE8s(metadata.price) * Number(metadata.supply_cap))) *
+		(Number(metadata.total_supply) / Number(metadata.supply_cap)) *
 		100
 	).toFixed(2);
 </script>

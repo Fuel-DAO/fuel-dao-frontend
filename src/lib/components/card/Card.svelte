@@ -27,8 +27,14 @@
 		{#if data.description}
 			<div class="text-sm line-clamp-2 h-max">{data.description} <br /></div>
 		{:else}
-			<div class="text-sm"><span class="font-medium">Year:</span> --</div>
-			<div class="text-sm">-- Seats | -- Km Range</div>
+			<div class="text-sm">
+				<span class="font-medium">Range:</span>
+				{data.range_per_charge || '--'} Km
+			</div>
+			<div class="text-sm">
+				{data.seating || '--'} Seats {data.drive_type ? `| ${data.drive_type}` : ''}
+				{data.acceleration ? `| ${data.acceleration}` : ''}
+			</div>
 		{/if}
 	</div>
 </a>
