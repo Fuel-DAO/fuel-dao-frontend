@@ -33,33 +33,64 @@
 </script>
 
 <div class="flex flex-col gap-4">
-	<Input disabled={loading} label="Purchase price" type="number" bind:value={data.purchase_price} />
-	<Input disabled={loading} label="Weight" type="number" bind:value={data.weight} />
-	<Input disabled={loading} label="Drive Type" type="number" bind:value={data.drive_type} />
-	<Input disabled={loading} label="Displays" type="text" bind:value={data.displays} />
-	<Input disabled={loading} label="Seating" type="text" bind:value={data.seating} />
-	<Input disabled={loading} label="Cargo" type="number" bind:value={data.cargo} />
-	<Input disabled={loading} label="Overall height" type="number" bind:value={data.overall_height} />
-	<Input disabled={loading} label="Overall width" type="number" bind:value={data.overall_width} />
-	<Input disabled={loading} label="Track front" type="number" bind:value={data.track_front} />
 	<Input
 		disabled={loading}
-		label="Ground clearance"
+		label="Purchase price (EUR)"
+		type="number"
+		bind:value={data.purchase_price}
+	/>
+	<Input disabled={loading} label="Weight (KGs)" type="number" bind:value={data.weight} />
+	<Input disabled={loading} label="Drive Type" type="text" bind:value={data.drive_type} />
+	<Input disabled={loading} label="Displays" type="text" bind:value={data.displays} />
+	<Input disabled={loading} label="Seating" type="text" bind:value={data.seating} />
+	<Input disabled={loading} label="Cargo (Litres)" type="number" bind:value={data.cargo} />
+	<Input
+		disabled={loading}
+		label="Overall height (mm)"
+		type="number"
+		bind:value={data.overall_height}
+	/>
+	<Input
+		disabled={loading}
+		label="Overall width (mm)"
+		type="number"
+		bind:value={data.overall_width}
+	/>
+	<Input
+		disabled={loading}
+		label="Overall length (mm)"
+		type="number"
+		bind:value={data.overall_length}
+	/>
+	<Input disabled={loading} label="Track front (mm)" type="number" bind:value={data.track_front} />
+	<Input disabled={loading} label="Track Rear (mm)" type="number" bind:value={data.track_rear} />
+	<Input
+		disabled={loading}
+		label="Ground clearance (mm)"
 		type="number"
 		bind:value={data.ground_clearance}
 	/>
-	<Input disabled={loading} label="key_features" type="text" bind:value={data.key_features} />
 	<Input
 		disabled={loading}
-		label="Range per charge"
+		label="key Features (separate by comma)"
+		type="text"
+		bind:value={data.key_features}
+	/>
+	<Input
+		disabled={loading}
+		label="Range per charge (KMs)"
 		type="number"
 		bind:value={data.range_per_charge}
 	/>
-	<Input disabled={loading} label="Track Rear" type="number" bind:value={data.track_rear} />
+
 	<Input disabled={loading} label="Acceleration" type="text" bind:value={data.acceleration} />
-	<Input disabled={loading} label="Charging Speed" type="text" bind:value={data.charging_speed} />
+	<Input
+		disabled={loading}
+		label="Charging Speed (V)"
+		type="text"
+		bind:value={data.charging_speed}
+	/>
 	<Input disabled={loading} label="Wheels" type="number" bind:value={data.wheels} />
 	<Input disabled={loading} label="Brochure URL" type="text" bind:value={data.brochure_url} />
-	<Input disabled={loading} label="Battery" type="text" bind:value={data.battery} />
-	<Input disabled={loading} label="Overall Length" type="number" bind:value={data.overall_length} />
+	<Input disabled={loading} label="Battery (kWh)" type="text" bind:value={data.battery} />
 </div>
