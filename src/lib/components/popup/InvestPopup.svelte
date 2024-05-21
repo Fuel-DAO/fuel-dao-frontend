@@ -31,9 +31,9 @@
 	let tokenBalance = 0;
 
 	$: currentInvestment =
-		metadata?.price && tokenBalance ? fromE8s(metadata.price) * fromE8s(tokenBalance) : 0;
+		metadata?.price && tokenBalance ? fromE8s(metadata.price) * tokenBalance : 0;
 
-	$: console.log({ metadata, tokenBalance, currentInvestment });
+	$: console.log({ price: metadata?.price, tokenBalance, currentInvestment });
 
 	async function checkPaymentStatus() {
 		const actor = nftCanister(minterCanId);
@@ -60,6 +60,8 @@
 				subaccount: []
 			}
 		]);
+
+		console.log('balance_of', currentInvestment);
 
 		tokenBalance = currentInvestment[0] ? fromE8s(currentInvestment[0]) : 0;
 
