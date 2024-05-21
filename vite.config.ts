@@ -4,7 +4,7 @@ import { nodePolyfills } from 'vite-plugin-node-polyfills';
 import 'dotenv/config';
 
 const DFX_PORT = process.env.DFX_PORT || 8080;
-const prod = process.env.NODE_ENV !== 'production';
+const prod = process.env.NODE_ENV === 'production';
 
 export default defineConfig({
 	define: {
@@ -12,7 +12,7 @@ export default defineConfig({
 		'process.env.CANISTER_ID_ASSET_PROXY': JSON.stringify('6ncgq-7yaaa-aaaam-acnua-cai'),
 		'process.env.CANISTER_ID_PROVISION': JSON.stringify('7amc6-qqaaa-aaaam-acntq-cai'),
 		'process.env.INTERNET_IDENTITY_CANISTER_ID': JSON.stringify('bw4dl-smaaa-aaaaa-qaacq-cai'),
-    'process.env.ICP_LEDGER_CANISTER_ID': JSON.stringify('ryjl3-tyaaa-aaaaa-aaaba-cai'),
+		'process.env.ICP_LEDGER_CANISTER_ID': JSON.stringify('ryjl3-tyaaa-aaaaa-aaaba-cai'),
 		'import.meta.env.NODE_ENV': JSON.stringify(prod ? 'production' : 'dev'),
 		'import.meta.env.DFX_PORT': JSON.stringify(DFX_PORT),
 		'process.env.DFX_NETWORK': JSON.stringify(prod ? 'ic' : 'local')
