@@ -1,5 +1,6 @@
 <script lang="ts">
 	import InvestComplete from '$lib/components/popup/InvestComplete.svelte';
+	import InvestPopup from '$lib/components/popup/InvestPopup.svelte';
 	import type { PageData } from './$types';
 	import InvestInfo from './InvestInfo.svelte';
 	import CollectionHeader from './CollectionHeader.svelte';
@@ -47,5 +48,5 @@
 </div>
 
 {#if showInvestPopup}
-	<InvestComplete bind:show={showInvestPopup} />
+	<InvestPopup bind:show={showInvestPopup} minterCanId={minterCanId} />
 {/if}

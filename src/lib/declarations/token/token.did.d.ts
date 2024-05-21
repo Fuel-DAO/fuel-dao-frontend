@@ -10,7 +10,10 @@ export interface _SERVICE {
   >,
   'get_escrow_account' : ActorMethod<
     [],
-    { 'owner' : Principal, 'subaccount' : Uint8Array | number[] }
+    {
+      'accountId' : string,
+      'account' : { 'owner' : Principal, 'subaccount' : Uint8Array | number[] },
+    }
   >,
   'get_escrow_balance' : ActorMethod<[], bigint>,
   'get_metadata' : ActorMethod<

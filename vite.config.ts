@@ -4,7 +4,7 @@ import { nodePolyfills } from 'vite-plugin-node-polyfills';
 import 'dotenv/config';
 
 const DFX_PORT = process.env.DFX_PORT || 8080;
-const prod = process.env.NODE_ENV === 'production';
+const prod = process.env.NODE_ENV !== 'production';
 
 export default defineConfig({
 	define: {
