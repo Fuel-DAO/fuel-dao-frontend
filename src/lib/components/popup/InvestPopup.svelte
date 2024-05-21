@@ -10,6 +10,7 @@
 
 	import { fromE8s } from '$lib/utils/icp';
 	import CopyButton from '../button/CopyButton.svelte';
+	import { Principal } from '@dfinity/principal';
 	export let show = false;
 	// export let showWarning = false;
 	export let minterCanId: string;
@@ -58,12 +59,18 @@
 		const actor = nftCanister(minterCanId);
 		const transferToAccount = await actor.get_escrow_account();
 		const nftMetadata = await actor.get_metadata();
+		const currentInvestment = await actor.icrc7_balance_of([
+			{
+				owner: Principal.from($authState.idString),
+				subaccount: []
+			}
+		]);
 
 		paymentInfo = {
 			loaded: true,
 			transferTo: transferToAccount.accountId,
 			nftPrice: Number(nftMetadata.price),
-			currentInvestment: Number(nftMetadata.total_supply * nftMetadata.price)
+			currentInvestment: fromE8s(currentInvestment[0]) || 0
 		};
 	}
 
