@@ -44,7 +44,7 @@
 		/>
 
 		{#each images as [im1, im2], i}
-			<div class="flex basis-[25%] shrink-0 flex-col gap-2 lg:h-full">
+			<div class="flex basis-[25rem] shrink-0 flex-col gap-2 lg:h-full">
 				<img
 					alt="Collection preview {i}"
 					src={im1 ? assetPath(assetCanId, im1) : placeholder}
