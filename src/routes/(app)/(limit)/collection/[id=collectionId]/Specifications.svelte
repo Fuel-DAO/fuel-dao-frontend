@@ -3,9 +3,6 @@
 
 	export let metadata: CollectionMetadata;
 
-	const renVal = (n: number | string, pre = '€') =>
-		n === '--' ? '--' : `${pre ? pre + ' ' : ''} ${n}`;
-
 	$: description = metadata.description || 'No description provided';
 	$: weight = metadata.weight || '--';
 	$: driveType = metadata.drive_type || 'Electric';
@@ -22,7 +19,6 @@
 		? metadata.key_features
 		: ['Tesla Autopilot', '0-60 in 3.2s'];
 	$: rangePerCharge = metadata.range_per_charge || '--';
-
 	$: acceleration = metadata.acceleration || '0-60 in 3.2s';
 	$: chargingSpeed = metadata.charging_speed || '400';
 	$: wheels = metadata.wheels || '18"';
