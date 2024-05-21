@@ -15,7 +15,9 @@
 			: 'https://identity.ic0.app/#authorize';
 
 	const DERIVATION_ORIGIN =
-		import.meta.env.NODE_ENV === 'dev' ? undefined : 'https://67erj-tiaaa-aaaam-acnxa-cai.icp0.io';
+		import.meta.env.NODE_ENV === 'dev'
+			? undefined
+			: `https://${process.env.CANISTER_ID_WEBCLIENT}.icp0.io`;
 
 	let error = '';
 
@@ -60,8 +62,8 @@
 			maxTimeToLive: BigInt(30 * 24 * 60 * 60 * 1000 * 1000 * 1000),
 			onSuccess: () => handleSuccessfulLogin(),
 			onError: (e) => handleError(e),
-			identityProvider: 'https://identity.ic0.app/#authorize'
-			// derivationOrigin: DERIVATION_ORIGIN
+			identityProvider: IDENTITY_PROVIDER,
+			derivationOrigin: DERIVATION_ORIGIN
 		});
 	}
 
