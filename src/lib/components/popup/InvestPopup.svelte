@@ -33,8 +33,6 @@
 	$: currentInvestment =
 		metadata?.price && tokenBalance ? fromE8s(metadata.price) * tokenBalance : 0;
 
-	$: console.log({ price: metadata?.price, tokenBalance, currentInvestment });
-
 	async function checkPaymentStatus() {
 		const actor = nftCanister(minterCanId);
 		const escrowBalance = await actor.get_escrow_balance();
@@ -61,9 +59,7 @@
 			}
 		]);
 
-		console.log('balance_of', currentInvestment);
-
-		tokenBalance = currentInvestment[0] ? fromE8s(currentInvestment[0]) : 0;
+		tokenBalance = currentInvestment[0] ? Number(currentInvestment[0]) : 0;
 
 		paymentInfo = {
 			loaded: true,
