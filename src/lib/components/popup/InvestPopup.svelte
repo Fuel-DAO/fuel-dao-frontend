@@ -7,27 +7,31 @@
 	import { onDestroy } from 'svelte';
 	import { nftCanister } from '$lib/backend';
 	import { authState } from '$lib/stores/auth';
-
 	import { fromE8s } from '$lib/utils/icp';
 	import CopyButton from '../button/CopyButton.svelte';
 	import { Principal } from '@dfinity/principal';
+	import type { CollectionMetadata } from '$lib/types/nftCanister';
+
 	export let show = false;
-	// export let showWarning = false;
 	export let minterCanId: string;
 
 	const TRANSFER_PRICE = 10_000n;
+
 	let nftToBuy = 1;
-	let nnsAccountId = '';
 	let paymentInfo = {
 		loaded: false,
 		transferTo: '',
-		nftPrice: 0,
-		currentInvestment: 0
+		nftPrice: 0
 	};
 
 	let pollInterval: ReturnType<typeof setInterval>;
 	let step: 1 | 2 | 3 = 1;
 	let paymentStatus = 'pending';
+	let metadata: CollectionMetadata;
+	let tokenBalance = 0;
+
+	$: currentInvestment =
+		metadata?.price && tokenBalance ? fromE8s(metadata.price) * Number(tokenBalance) : 0;
 
 	async function checkPaymentStatus() {
 		const actor = nftCanister(minterCanId);
@@ -41,24 +45,13 @@
 	}
 
 	async function startPoll() {
-		const actor = nftCanister(minterCanId);
-		const transferToAccount = await actor.get_escrow_account();
-		const nftMetadata = await actor.get_metadata();
-
-		paymentInfo = {
-			loaded: true,
-			transferTo: transferToAccount.accountId,
-			nftPrice: Number(nftMetadata.price),
-			currentInvestment: Number(nftMetadata.total_supply * nftMetadata.price)
-		};
-
 		pollInterval = setInterval(() => checkPaymentStatus(), 5000);
 	}
 
 	async function getPaymentInfo() {
 		const actor = nftCanister(minterCanId);
 		const transferToAccount = await actor.get_escrow_account();
-		const nftMetadata = await actor.get_metadata();
+		metadata = await actor.get_metadata();
 		const currentInvestment = await actor.icrc7_balance_of([
 			{
 				owner: Principal.from($authState.idString),
@@ -66,11 +59,12 @@
 			}
 		]);
 
+		tokenBalance = currentInvestment[0] ? fromE8s(currentInvestment[0]) : 0;
+
 		paymentInfo = {
 			loaded: true,
 			transferTo: transferToAccount.accountId,
-			nftPrice: Number(nftMetadata.price),
-			currentInvestment: fromE8s(currentInvestment[0]) || 0
+			nftPrice: Number(metadata.price)
 		};
 	}
 
@@ -138,7 +132,7 @@
 					</div>
 					<div class="flex w-full items-center justify-between text-sm gap-4">
 						<div>Current investment:</div>
-						<div class="font-bold">{fromE8s(paymentInfo.currentInvestment)} ICP</div>
+						<div class="font-bold">{currentInvestment} ICP</div>
 					</div>
 					<Input
 						bind:value={nftToBuy}
