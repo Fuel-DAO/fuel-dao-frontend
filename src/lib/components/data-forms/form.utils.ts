@@ -16,7 +16,7 @@ export function getNewCollectionFormData(
 		supply_cap: BigInt(basicInfoData.supplyCap),
 		logo: basicInfoData.logo,
 		price: BigInt(toE8s(basicInfoData.price)),
-		token: Principal.from('2vxsx-fae'),
+		token: Principal.from(process.env.ICP_LEDGER_CANISTER_ID),
 		symbol: 'ICP',
 		treasury: Principal.from('2vxsx-fae'),
 		documents: [],
