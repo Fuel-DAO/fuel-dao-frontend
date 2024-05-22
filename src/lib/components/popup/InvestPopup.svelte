@@ -35,31 +35,22 @@
 
 	async function checkPaymentStatus() {
 		const actor = nftCanister(minterCanId);
-		const escrowBalance = await actor.get_escrow_balance();
-		if (escrowBalance >= nftToBuy * paymentInfo.nftPrice + Number(TRANSFER_PRICE)) {
-			const res = await actor.mint({ subaccount: [], quantity: BigInt(nftToBuy) });
-			if ('Ok' in res) {
-				paymentStatus = 'completed';
-			}
-		}
+    const res = await actor.book_tokens({ quantity: BigInt(nftToBuy) });
+    if ('Ok' in res) {
+      paymentStatus = 'completed';
+    }
 	}
 
 	async function startPoll() {
-		pollInterval = setInterval(() => checkPaymentStatus(), 5000);
+		pollInterval = setInterval(() => checkPaymentStatus(), 10000);
 	}
 
 	async function getPaymentInfo() {
 		const actor = nftCanister(minterCanId);
 		const transferToAccount = await actor.get_escrow_account();
 		metadata = await actor.get_metadata();
-		const currentInvestment = await actor.icrc7_balance_of([
-			{
-				owner: Principal.from($authState.idString),
-				subaccount: []
-			}
-		]);
-
-		tokenBalance = currentInvestment[0] ? Number(currentInvestment[0]) : 0;
+		const currentInvestment = await actor.get_booked_tokens([Principal.from($authState.idString)]);
+		tokenBalance = Number(currentInvestment);
 
 		paymentInfo = {
 			loaded: true,

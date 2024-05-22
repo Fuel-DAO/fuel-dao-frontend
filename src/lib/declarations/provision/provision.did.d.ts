@@ -34,6 +34,7 @@ export interface _SERVICE {
         'charging_speed' : string,
         'wheels' : number,
         'brochure_url' : string,
+        'index' : Principal,
         'price' : bigint,
         'battery' : string,
         'overall_length' : number,
@@ -54,6 +55,11 @@ export interface _SERVICE {
           'asset_canister' : Principal,
         }
       } |
+      { 'Err' : string }
+  >,
+  'delete_collection' : ActorMethod<
+    [bigint],
+    { 'Ok' : boolean } |
       { 'Err' : string }
   >,
   'get_asset_canister_wasm' : ActorMethod<
@@ -94,6 +100,7 @@ export interface _SERVICE {
             'charging_speed' : string,
             'wheels' : number,
             'brochure_url' : string,
+            'index' : Principal,
             'price' : bigint,
             'battery' : string,
             'overall_length' : number,

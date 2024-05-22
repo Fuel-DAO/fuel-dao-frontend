@@ -31,6 +31,7 @@ export const idlFactory = ({ IDL }) => {
             'charging_speed' : IDL.Text,
             'wheels' : IDL.Float64,
             'brochure_url' : IDL.Text,
+            'index' : IDL.Principal,
             'price' : IDL.Nat,
             'battery' : IDL.Text,
             'overall_length' : IDL.Float64,
@@ -54,6 +55,11 @@ export const idlFactory = ({ IDL }) => {
             'Err' : IDL.Text,
           }),
         ],
+        [],
+      ),
+    'delete_collection' : IDL.Func(
+        [IDL.Nat],
+        [IDL.Variant({ 'Ok' : IDL.Bool, 'Err' : IDL.Text })],
         [],
       ),
     'get_asset_canister_wasm' : IDL.Func(
@@ -98,6 +104,7 @@ export const idlFactory = ({ IDL }) => {
                   'charging_speed' : IDL.Text,
                   'wheels' : IDL.Float64,
                   'brochure_url' : IDL.Text,
+                  'index' : IDL.Principal,
                   'price' : IDL.Nat,
                   'battery' : IDL.Text,
                   'overall_length' : IDL.Float64,

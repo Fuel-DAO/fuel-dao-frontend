@@ -3,11 +3,18 @@ import type { ActorMethod } from '@dfinity/agent';
 import type { IDL } from '@dfinity/candid';
 
 export interface _SERVICE {
+  'accept_sale' : ActorMethod<[], { 'Ok' : boolean } | { 'Err' : string }>,
+  'book_tokens' : ActorMethod<
+    [{ 'quantity' : bigint }],
+    { 'Ok' : boolean } |
+      { 'Err' : string }
+  >,
   'change_ownership' : ActorMethod<
     [Principal],
     { 'Ok' : bigint } |
       { 'Err' : string }
   >,
+  'get_booked_tokens' : ActorMethod<[[] | [Principal]], bigint>,
   'get_escrow_account' : ActorMethod<
     [],
     {
@@ -15,7 +22,6 @@ export interface _SERVICE {
       'account' : { 'owner' : Principal, 'subaccount' : Uint8Array | number[] },
     }
   >,
-  'get_escrow_balance' : ActorMethod<[], bigint>,
   'get_metadata' : ActorMethod<
     [],
     {
@@ -44,6 +50,7 @@ export interface _SERVICE {
       'charging_speed' : string,
       'wheels' : number,
       'brochure_url' : string,
+      'index' : Principal,
       'price' : bigint,
       'battery' : string,
       'overall_length' : number,
@@ -53,6 +60,13 @@ export interface _SERVICE {
       'images' : Array<string>,
     }
   >,
+  'get_sale_status' : ActorMethod<
+    [],
+    { 'Live' : null } |
+      { 'Rejected' : null } |
+      { 'Accepted' : null }
+  >,
+  'get_total_booked_tokens' : ActorMethod<[], bigint>,
   'icrc61_supported_standards' : ActorMethod<
     [],
     Array<{ 'url' : string, 'name' : string }>
@@ -200,13 +214,9 @@ export interface _SERVICE {
     >
   >,
   'icrc7_tx_window' : ActorMethod<[], [] | [bigint]>,
-  'mint' : ActorMethod<
-    [{ 'subaccount' : [] | [Uint8Array | number[]], 'quantity' : bigint }],
-    { 'Ok' : Array<bigint> } |
-      { 'Err' : string }
-  >,
-  'refund' : ActorMethod<
-    [{ 'subaccount' : [] | [Uint8Array | number[]] }],
+  'reject_sale' : ActorMethod<[], { 'Ok' : boolean } | { 'Err' : string }>,
+  'reject_sale_individual' : ActorMethod<
+    [Principal],
     { 'Ok' : boolean } |
       { 'Err' : string }
   >,
@@ -237,6 +247,7 @@ export interface _SERVICE {
         'charging_speed' : [] | [string],
         'wheels' : [] | [number],
         'brochure_url' : [] | [string],
+        'index' : [] | [Principal],
         'price' : [] | [bigint],
         'battery' : [] | [string],
         'overall_length' : [] | [number],

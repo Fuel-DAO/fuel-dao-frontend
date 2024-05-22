@@ -1,9 +1,24 @@
 export const idlFactory = ({ IDL }) => {
   return IDL.Service({
+    'accept_sale' : IDL.Func(
+        [],
+        [IDL.Variant({ 'Ok' : IDL.Bool, 'Err' : IDL.Text })],
+        [],
+      ),
+    'book_tokens' : IDL.Func(
+        [IDL.Record({ 'quantity' : IDL.Nat })],
+        [IDL.Variant({ 'Ok' : IDL.Bool, 'Err' : IDL.Text })],
+        [],
+      ),
     'change_ownership' : IDL.Func(
         [IDL.Principal],
         [IDL.Variant({ 'Ok' : IDL.Nat, 'Err' : IDL.Text })],
         [],
+      ),
+    'get_booked_tokens' : IDL.Func(
+        [IDL.Opt(IDL.Principal)],
+        [IDL.Nat],
+        ['query'],
       ),
     'get_escrow_account' : IDL.Func(
         [],
@@ -18,7 +33,6 @@ export const idlFactory = ({ IDL }) => {
         ],
         ['query'],
       ),
-    'get_escrow_balance' : IDL.Func([], [IDL.Nat], ['query']),
     'get_metadata' : IDL.Func(
         [],
         [
@@ -48,6 +62,7 @@ export const idlFactory = ({ IDL }) => {
             'charging_speed' : IDL.Text,
             'wheels' : IDL.Float64,
             'brochure_url' : IDL.Text,
+            'index' : IDL.Principal,
             'price' : IDL.Nat,
             'battery' : IDL.Text,
             'overall_length' : IDL.Float64,
@@ -59,6 +74,18 @@ export const idlFactory = ({ IDL }) => {
         ],
         ['query'],
       ),
+    'get_sale_status' : IDL.Func(
+        [],
+        [
+          IDL.Variant({
+            'Live' : IDL.Null,
+            'Rejected' : IDL.Null,
+            'Accepted' : IDL.Null,
+          }),
+        ],
+        ['query'],
+      ),
+    'get_total_booked_tokens' : IDL.Func([], [IDL.Nat], ['query']),
     'icrc61_supported_standards' : IDL.Func(
         [],
         [IDL.Vec(IDL.Record({ 'url' : IDL.Text, 'name' : IDL.Text }))],
@@ -247,18 +274,13 @@ export const idlFactory = ({ IDL }) => {
         [],
       ),
     'icrc7_tx_window' : IDL.Func([], [IDL.Opt(IDL.Nat)], ['query']),
-    'mint' : IDL.Func(
-        [
-          IDL.Record({
-            'subaccount' : IDL.Opt(IDL.Vec(IDL.Nat8)),
-            'quantity' : IDL.Nat,
-          }),
-        ],
-        [IDL.Variant({ 'Ok' : IDL.Vec(IDL.Nat), 'Err' : IDL.Text })],
+    'reject_sale' : IDL.Func(
+        [],
+        [IDL.Variant({ 'Ok' : IDL.Bool, 'Err' : IDL.Text })],
         [],
       ),
-    'refund' : IDL.Func(
-        [IDL.Record({ 'subaccount' : IDL.Opt(IDL.Vec(IDL.Nat8)) })],
+    'reject_sale_individual' : IDL.Func(
+        [IDL.Principal],
         [IDL.Variant({ 'Ok' : IDL.Bool, 'Err' : IDL.Text })],
         [],
       ),
@@ -289,6 +311,7 @@ export const idlFactory = ({ IDL }) => {
             'charging_speed' : IDL.Opt(IDL.Text),
             'wheels' : IDL.Opt(IDL.Float64),
             'brochure_url' : IDL.Opt(IDL.Text),
+            'index' : IDL.Opt(IDL.Principal),
             'price' : IDL.Opt(IDL.Nat),
             'battery' : IDL.Opt(IDL.Text),
             'overall_length' : IDL.Opt(IDL.Float64),
@@ -332,6 +355,7 @@ export const init = ({ IDL }) => {
         'charging_speed' : IDL.Text,
         'wheels' : IDL.Float64,
         'brochure_url' : IDL.Text,
+        'index' : IDL.Principal,
         'price' : IDL.Nat,
         'battery' : IDL.Text,
         'overall_length' : IDL.Float64,
