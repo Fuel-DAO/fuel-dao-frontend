@@ -6,7 +6,6 @@
 	import { tick } from 'svelte';
 	import logo from '$lib/assets/logo.svg';
 	import { adminStore } from '$lib/stores/admin';
-	import { provisionCanister } from '$lib/backend';
 
 	const IDENTITY_PROVIDER =
 		import.meta.env.NODE_ENV === 'dev'
@@ -19,10 +18,6 @@
 			: `https://${process.env.CANISTER_ID_WEBCLIENT}.icp0.io`;
 
 	let error = '';
-
-	$: if ($authState.isLoggedIn) {
-		checkIfAdmin();
-	}
 
 	async function handleSuccessfulLogin() {
 		try {
