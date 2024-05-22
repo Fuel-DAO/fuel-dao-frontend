@@ -5,33 +5,25 @@
 	import CollectionHeader from './CollectionHeader.svelte';
 	import placeholder from '$lib/assets/placeholder.png';
 	import { getCollectionId } from './collectionId.context';
-	import { assetPath, nftCanister } from '$lib/backend';
+	import { assetPath } from '$lib/backend';
 	import { adminStore } from '$lib/stores/admin';
 	import InvestInfoAdmin from './InvestInfoAdmin.svelte';
-	import { onMount } from 'svelte';
 
 	export let data: PageData;
 
 	const { minterCanId, assetCanId } = getCollectionId();
+	const { metadata, bookedTokens, status: _status } = data;
+
+	const status = Object.keys(_status)[0] as 'Live' | 'Rejected' | 'Accepted';
 
 	let showInvestPopup = false;
-	let bookedTokens = 0;
 
-	async function getBookedTokens() {
-		const actor = nftCanister(minterCanId);
-		const tokens = await actor.get_total_booked_tokens();
-		bookedTokens = Number(tokens);
-	}
-
-	$: metadata = data.metadata;
 	$: _images = metadata?.images?.length ? metadata.images : [placeholder, placeholder];
 	$: images = (_images || []).reduce((acc, _c, i, v) => {
 		if (i === 0) return acc;
 		if (i % 2 !== 0) acc.push(v.slice(i, i + 2));
 		return acc;
 	}, []);
-
-	onMount(getBookedTokens);
 </script>
 
 <div class="w-full flex flex-col items-center gap-4 pb-8">
@@ -73,16 +65,18 @@
 		{/each}
 	</div>
 	<div class="flex flex-col lg:flex-row gap-8 pt-6 w-full max-w-6xl">
-		<CollectionHeader {metadata} />
+		<CollectionHeader {metadata} {status} />
 		<div class="flex flex-col gap-8">
 			<InvestInfo
 				{metadata}
+				{bookedTokens}
+				{status}
 				on:click={() => {
 					showInvestPopup = true;
 				}}
 			/>
-			{#if $adminStore.isLoggedIn}
-				<InvestInfoAdmin {metadata} />
+			{#if $adminStore.isLoggedIn && status === 'Live'}
+				<InvestInfoAdmin {metadata} {bookedTokens} />
 			{/if}
 		</div>
 	</div>

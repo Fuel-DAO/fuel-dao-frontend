@@ -23,23 +23,10 @@
 	export let loading = true;
 	export let edit = false;
 	export let data: BasicInfoData = initBasicInfo();
-
-	// const handleStatusChange = ({ detail }: { detail: string }) =>
-	// 	(data.status = detail as StatusKey);
 </script>
 
 <div class="flex flex-col gap-4">
 	<Input disabled={loading} label="Title" bind:value={data.name} placeholder="Enter a title" />
-	<Select
-		label="Status"
-		value="Live"
-		options={[
-			{ value: 'Ended', label: 'Ended' },
-			{ value: 'Live', label: 'Live' },
-			{ value: 'Draft', label: 'Draft' },
-			{ value: 'Upcoming', label: 'Upcoming' }
-		]}
-	/>
 	<div class="flex flex-col gap-1">
 		<Input
 			disabled={loading || edit}

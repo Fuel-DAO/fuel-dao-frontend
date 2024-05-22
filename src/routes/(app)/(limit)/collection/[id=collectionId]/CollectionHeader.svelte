@@ -10,6 +10,7 @@
 	import { getCollectionId } from './collectionId.context';
 
 	export let metadata: CollectionMetadata;
+	export let status: 'Live' | 'Rejected' | 'Accepted';
 
 	const tabs = ['specifications', 'documents'] as TabType[];
 	type TabType = 'specifications' | 'documents';
@@ -25,7 +26,7 @@
 			<div
 				class="py-2 px-4 text-xs bg-black rounded-full text-white font-light flex h-min items-center justify-center"
 			>
-				Live
+				{status === 'Live' ? 'Open' : 'Closed'}
 			</div>
 		</div>
 		{#if $authState.isLoggedIn && metadata.collection_owner.toText() === $authState.idString}
