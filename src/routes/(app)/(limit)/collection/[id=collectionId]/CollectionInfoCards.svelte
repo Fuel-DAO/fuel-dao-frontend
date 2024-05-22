@@ -4,8 +4,7 @@
 	export let metadata: CollectionMetadata;
 
 	$: acceleration = metadata.acceleration || '--';
-	$: supplyCap = metadata.supply_cap;
-	$: nftsMinted = supplyCap - metadata.total_supply;
+	$: seating = metadata.seating || '--';
 	$: range = metadata.range_per_charge || '--';
 </script>
 
@@ -26,7 +25,7 @@
 	<div
 		class="border border-black/20 flex-1 rounded-xl p-4 flex flex-col gap-1 text-black items-center"
 	>
-		<div class="font-bold text-nowrap">Total NFTs supply</div>
-		<div class="">{nftsMinted}/{supplyCap}</div>
+		<div class="font-bold text-nowrap">Seating</div>
+		<div class="">{seating} Seats</div>
 	</div>
 </div>
