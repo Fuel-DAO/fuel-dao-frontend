@@ -5,7 +5,7 @@
 		initBasicInfo,
 		type BasicInfoData
 	} from '$lib/components/data-forms/BasicInfo.svelte';
-	import { ASSET_CANISTER_ID, ASSET_PROXY_CANISTER_ID, provisionCanisterV2 } from '$lib/backend';
+	import { ASSET_CANISTER_ID, ASSET_PROXY_CANISTER_ID, provisionCanister } from '$lib/backend';
 	import { slide } from 'svelte/transition';
 	import { replacer } from '$lib/utils/json';
 	import ImagesInfo, {
@@ -33,7 +33,7 @@
 		if (loading) return;
 		try {
 			loading = true;
-			const actor = provisionCanisterV2();
+			const actor = provisionCanister();
 			res = await actor.add_collection_request(
 				getNewCollectionFormData(basicInfoData, collectionInfoData, imagesInfoData, documents)
 			);

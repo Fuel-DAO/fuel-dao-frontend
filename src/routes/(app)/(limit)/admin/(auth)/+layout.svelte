@@ -3,10 +3,8 @@
 	import PlusIcon from '$lib/components/icons/PlusIcon.svelte';
 	import { onMount } from 'svelte';
 	import { goto } from '$app/navigation';
-	import { provisionCanisterV2 } from '$lib/backend';
 	import Button from '$lib/components/button/Button.svelte';
-	import { authState } from '$lib/stores/auth';
-	import { Principal } from '@dfinity/principal';
+	import { checkIfAdmin } from '$lib/backend/admin';
 
 	let loading = true;
 	let error = '';
@@ -14,29 +12,16 @@
 	async function checkAuthStatus() {
 		error = '';
 		try {
-			const actor = provisionCanisterV2();
-			const res = await actor.is_admin([Principal.from($authState.idString)]);
-			if (res) {
-				$adminStore = {
-					isLoggedIn: true,
-					key: $authState.idString || ''
-				};
+			await checkIfAdmin();
+			if ($adminStore.isLoggedIn) {
 				loading = false;
 			} else {
-				gotoAuthPage();
+				goto('/admin/auth');
 			}
 		} catch (e) {
 			console.error(e);
 			error = 'Something went wrong!';
 		}
-	}
-
-	function gotoAuthPage() {
-		$adminStore = {
-			isLoggedIn: false,
-			key: ''
-		};
-		goto('/admin/auth');
 	}
 
 	onMount(checkAuthStatus);

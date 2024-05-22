@@ -4,7 +4,7 @@
 	import LocationIcon from '$lib/components/icons/LocationIcon.svelte';
 	import SortIcon from '$lib/components/icons/SortIcon.svelte';
 	import TabsGroup from '$lib/components/tabs-group/TabsGroup.svelte';
-	import { nftCanister, provisionCanisterV2 } from '$lib/backend';
+	import { nftCanister, provisionCanister } from '$lib/backend';
 	import PlusIcon from '$lib/components/icons/PlusIcon.svelte';
 	import { onMount } from 'svelte';
 	import type { CollectionMetadata } from '$lib/types/nftCanister';
@@ -42,7 +42,7 @@
 
 	async function fetchCollections() {
 		try {
-			const actor = provisionCanisterV2();
+			const actor = provisionCanister();
 			const all = await actor.list_collections();
 
 			const res = await populatePosts(

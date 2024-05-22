@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { page } from '$app/stores';
-	import { ASSET_CANISTER_ID, assetPath, provisionCanisterV2 } from '$lib/backend';
+	import { ASSET_CANISTER_ID, assetPath, provisionCanister } from '$lib/backend';
 	import Button from '$lib/components/button/Button.svelte';
 	import PlusIcon from '$lib/components/icons/PlusIcon.svelte';
 	import type { _SERVICE } from '$lib/declarations/provision/provision.did';
@@ -27,7 +27,7 @@
 
 	async function fetchForm() {
 		pageLoading = true;
-		const actor = provisionCanisterV2();
+		const actor = provisionCanister();
 		const res = await actor.get_request_info(BigInt(Number(id)));
 		if (res[0]) {
 			formData = res[0];
@@ -38,7 +38,7 @@
 	async function approve(approve: boolean) {
 		loading = true;
 		try {
-			const actor = provisionCanisterV2();
+			const actor = provisionCanister();
 			if (approve) {
 				const res = await actor.approve_request(BigInt(id));
 				if ('Ok' in res) {

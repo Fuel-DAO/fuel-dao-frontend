@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { provisionCanisterV2 } from '$lib/backend';
+	import { provisionCanister } from '$lib/backend';
 	import { onMount } from 'svelte';
 	import ListItem, { type FormMetadataWithId } from './ListItem.svelte';
 	import PlusIcon from '$lib/components/icons/PlusIcon.svelte';
@@ -9,7 +9,7 @@
 
 	async function fetchRequestDetail(id: bigint) {
 		try {
-			const actor = provisionCanisterV2();
+			const actor = provisionCanister();
 			const r = await actor.get_request_info(id);
 			if (r[0]) {
 				return {
@@ -24,7 +24,7 @@
 
 	async function fetchList() {
 		loading = true;
-		const actor = provisionCanisterV2();
+		const actor = provisionCanister();
 
 		const pendingReqIds = await actor.get_pending_requests();
 

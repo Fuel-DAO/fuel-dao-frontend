@@ -54,7 +54,7 @@ export function nftCanister(
 	}) as ActorSubclass<TOKEN_SERVICE>;
 }
 
-export function provisionCanisterV2(options?: {
+export function provisionCanister(options?: {
 	fetch?: typeof fetch;
 }): ActorSubclass<PROVISION_CAN_SERVICE> {
 	return createProvisionCanisterActor(provisionCanId, {

@@ -7,11 +7,16 @@
 	import MenuIcon from '../icons/MenuIcon.svelte';
 	import UserIcon from '../icons/UserIcon.svelte';
 	import HeaderMenu from './HeaderMenu.svelte';
+	import { checkIfAdmin } from '$lib/backend/admin';
 
 	let menuOpen = false;
 
 	$: showControls =
 		$page.url.pathname.includes('collection') || $page.url.pathname.includes('admin');
+
+	$: if ($authState) {
+		checkIfAdmin();
+	}
 </script>
 
 <div
