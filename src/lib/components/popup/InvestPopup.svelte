@@ -39,6 +39,7 @@
     if ('Ok' in res) {
       paymentStatus = 'completed';
     }
+    console.log(res);
 	}
 
 	async function startPoll() {

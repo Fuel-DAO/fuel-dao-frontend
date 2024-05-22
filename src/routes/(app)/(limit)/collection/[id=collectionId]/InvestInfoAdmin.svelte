@@ -14,11 +14,13 @@
 
 	$: investedPercentage = bookedTokens ? (bookedTokens / Number(metadata.supply_cap)) * 100 : 0;
 
-	function concludeSale(action: 'accept' | 'reject') {
+	async function concludeSale(action: '' | 'accept' | 'reject') {
+    if ( !action ) return;
 		loading = true;
 		try {
 			const actor = nftCanister(minterCanId);
-			// await actor.conclude_sale
+      const promise = (action === 'accept' ? actor.accept_sale() : actor.reject_sale());
+      console.log(await promise);
 		} finally {
 			loading = false;
 			location.reload();
@@ -41,7 +43,7 @@
 			>Reject sale</Button
 		>
 	</div>
-	{#if confirmAction}
+	{#if confirmAction }
 		<div class="text-sm font-bold">Caution!</div>
 		<div class="text-xs">
 			You are about to <span class="underline">{confirmAction}</span> the sale.<br /> This will stop
@@ -54,7 +56,7 @@
 		{/if}
 		<div class="flex gap-2">
 			<Button disabled={loading} secondary on:click={() => (confirmAction = '')}>Cancel</Button>
-			<Button {loading} on:click={() => concludeSale('accept')}>Confirm</Button>
+			<Button {loading} on:click={() => concludeSale(confirmAction)}>Confirm</Button>
 		</div>
 	{/if}
 </div>
