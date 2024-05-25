@@ -25,7 +25,7 @@
 			href="https://fueldao.notion.site/FuelDAO-Whitepaper-8a43f3b69c04433fbc4499d25fd6aa28?pvs=25"
       class="lg:text-xl lg:px-6 lg:py-3"
 		>
-			Our whitepaper
+			Our Whitepaper
 		</Button>
 	</div>
 	<div
@@ -39,7 +39,7 @@
 		style="background-image: url('{car}');"
 	></div>
 	<div
-		class="h-full w-full bg-white text-black flex flex-col items-start justify-center gap-12 lg:px-32 py-16 px-8"
+		class="h-full w-full bg-white text-black flex flex-col items-start justify-center gap-12 lg:h-auto lg:px-32 py-16 px-8"
 	>
 		<div class="flex items-start gap-4">
 			<div class="flex items-center justify-center lg:h-10 lg:w-10 h-9">
