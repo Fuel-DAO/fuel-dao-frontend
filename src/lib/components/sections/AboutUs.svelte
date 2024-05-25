@@ -23,7 +23,7 @@
 			your ride experience clean and simple.
 		</div>
 		<Button
-			href="https://slender-catamaran-8e7.notion.site/FuelDAO-Whitepaper-8a43f3b69c04433fbc4499d25fd6aa28"
+			href="https://fueldao.notion.site/FuelDAO-Whitepaper-8a43f3b69c04433fbc4499d25fd6aa28?pvs=25"
 		>
 			Our whitepaper
 		</Button>
