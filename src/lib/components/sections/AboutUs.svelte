@@ -8,9 +8,8 @@
 	<div
 		class="h-full bg-white text-black flex flex-col items-start justify-center gap-8 xl:px-32 px-8 py-16"
 	>
-		<div class="font-semibold text-xl lg:text-4xl">About Us</div>
 		<div class="font-semibold text-3xl lg:text-7xl text-primary">
-			Decentralized <br /> ridesharing
+			Decentralized <br /> Ridesharing
 		</div>
 		<div class="lg:text-xl text-lg">
 			FuelDAO is a pioneering decentralized autonomous organization that offers eco-friendly
@@ -24,6 +23,7 @@
 		</div>
 		<Button
 			href="https://fueldao.notion.site/FuelDAO-Whitepaper-8a43f3b69c04433fbc4499d25fd6aa28?pvs=25"
+      class="lg:text-xl lg:px-6 lg:py-3"
 		>
 			Our whitepaper
 		</Button>
@@ -33,46 +33,46 @@
 		style="background-image: url('{aboutUs}');"
 	></div>
 </section>
-<section class="lg:h-dvh w-full flex lg:flex-row flex-col-reverse">
+<section class="lg:min-h-dvh lg:h-auto w-full flex lg:flex-row flex-col-reverse lg:items-stretch">
 	<div
-		class="lg:h-full h-96 bg-center bg-cover shrink-0 w-full lg:w-1/2"
+		class="lg:h-auto h-96 bg-center bg-cover shrink-0 w-full lg:w-1/2"
 		style="background-image: url('{car}');"
 	></div>
 	<div
 		class="h-full w-full bg-white text-black flex flex-col items-start justify-center gap-12 lg:px-32 py-16 px-8"
 	>
 		<div class="flex items-start gap-4">
-			<div class="flex items-center justify-center lg:h-12 lg:w-12 h-9">
+			<div class="flex items-center justify-center lg:h-10 lg:w-10 h-9">
 				<div class="lg:h-6 lg:w-6 h-4 w-4 rounded-full bg-primary"></div>
 			</div>
-			<div class="flex flex-col gap-2">
-				<div class="font-semibold lg:text-5xl text-3xl">Decentralized <br /> control</div>
-				<div class="lg:text-2xl text-xl font-light leading-normal">
+			<div class="flex flex-col gap-4">
+				<div class="font-semibold lg:text-4xl text-3xl">Decentralized <br /> control</div>
+				<div class="text-xl leading-normal">
 					Fully community-owned <br /> ridesharing fleet, powered by <br /> blockchain technology
 				</div>
 			</div>
 		</div>
 		<div class="flex items-start gap-4">
-			<div class="flex items-center justify-center lg:h-12 lg:w-12 h-9">
+			<div class="flex items-center justify-center lg:h-10 lg:w-10 h-9">
 				<div class="lg:h-6 lg:w-6 h-4 w-4 rounded-full bg-primary"></div>
 			</div>
-			<div class="flex flex-col gap-2">
-				<div class="font-semibold lg:text-5xl text-3xl">Premium experience, <br /> guaranteed</div>
-				<div class="lg:text-2xl text-xl font-light leading-normal">
+			<div class="flex flex-col gap-4">
+				<div class="font-semibold lg:text-4xl text-3xl">Premium experience, <br /> guaranteed</div>
+				<div class="text-xl leading-normal">
 					80% Premium Tesla cars, 20% <br /> high-end fuel cars; complete <br /> with 24/7 road assistance
 					and insurance
 				</div>
 			</div>
 		</div>
 		<div class="flex items-start gap-4">
-			<div class="flex items-center justify-center lg:h-12 lg:w-12 h-9">
+			<div class="flex items-center justify-center lg:h-10 lg:w-10 h-9">
 				<div class="lg:h-6 lg:w-6 h-4 w-4 rounded-full bg-primary"></div>
 			</div>
-			<div class="flex flex-col gap-2">
-				<div class="font-semibold lg:text-5xl text-3xl">
+			<div class="flex flex-col gap-4">
+				<div class="font-semibold lg:text-4xl text-3xl">
 					Sustainability, always <br /> available
 				</div>
-				<div class="lg:text-2xl text-xl font-light leading-normal">
+				<div class="text-xl leading-normal">
 					Unique AI algorithms, keeping <br /> a car available around you-<br /> always
 				</div>
 			</div>
