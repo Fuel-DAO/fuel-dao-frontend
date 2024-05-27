@@ -73,16 +73,6 @@
 		<TabsGroup defaultValue="Status" selected="all" />
 		<div class="flex flex-col lg:flex-row items-end lg:items-center gap-4">
 			<Dropdown
-				title="Location"
-				options={[
-					{ value: 'Spain', label: 'Spain' },
-					{ value: 'Rome', label: 'Rome' }
-				]}
-			>
-				<LocationIcon slot="leading" />
-			</Dropdown>
-
-			<Dropdown
 				title="Sort"
 				options={[
 					{ value: 'new', label: 'New' },
