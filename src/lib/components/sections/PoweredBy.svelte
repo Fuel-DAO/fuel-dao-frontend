@@ -10,7 +10,7 @@
 		<div class="font-normal text-2xl">Powered by</div>
 		<img src={internetComputerText} alt="Internet Computer" class="w-64" />
 	</div>
-	<div class="lg:text-lg text-lg font-light max-w-7xl lg:leading-normal">
+	<div class="lg:text-lg text-lg font-normal max-w-7xl lg:leading-normal">
 		The Internet Computer (ICP) allows Web3 services to run 100% on-chain, providing the only
 		platform where developers can build and users can enjoy fully decentralized applications. ​
 		FuelDAO is set to leverage the power of DFINITY’s decentralized technology, specifically the SNS
