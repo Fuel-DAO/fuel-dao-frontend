@@ -8,7 +8,7 @@
 	<div
 		class="h-full bg-white text-black flex flex-col items-start justify-center gap-8 xl:px-32 px-8 py-16"
 	>
-		<div class="font-semibold text-3xl lg:text-7xl text-primary">
+		<div class="font-bold text-3xl lg:text-6xl text-primary">
 			Decentralized <br /> Ridesharing
 		</div>
 		<div class="lg:text-xl text-lg">
@@ -46,7 +46,7 @@
 				<div class="lg:h-6 lg:w-6 h-4 w-4 rounded-full bg-primary"></div>
 			</div>
 			<div class="flex flex-col gap-4">
-				<div class="font-semibold lg:text-4xl text-3xl">Decentralized <br /> control</div>
+				<div class="font-bold lg:text-4xl text-3xl">Decentralized <br /> control</div>
 				<div class="text-xl leading-normal">
 					Fully community-owned <br /> ridesharing fleet, powered by <br /> blockchain technology
 				</div>
@@ -57,7 +57,7 @@
 				<div class="lg:h-6 lg:w-6 h-4 w-4 rounded-full bg-primary"></div>
 			</div>
 			<div class="flex flex-col gap-4">
-				<div class="font-semibold lg:text-4xl text-3xl">Premium experience, <br /> guaranteed</div>
+				<div class="font-bold lg:text-4xl text-3xl">Premium experience, <br /> guaranteed</div>
 				<div class="text-xl leading-normal">
 					80% Premium Tesla cars, 20% <br /> high-end fuel cars; complete <br /> with 24/7 road assistance
 					and insurance
@@ -69,7 +69,7 @@
 				<div class="lg:h-6 lg:w-6 h-4 w-4 rounded-full bg-primary"></div>
 			</div>
 			<div class="flex flex-col gap-4">
-				<div class="font-semibold lg:text-4xl text-3xl">
+				<div class="font-bold lg:text-4xl text-3xl">
 					Sustainability, always <br /> available
 				</div>
 				<div class="text-xl leading-normal">

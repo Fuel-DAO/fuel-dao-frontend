@@ -5,7 +5,7 @@ import hero from './hero.webp';
 
 <section id="hero" class="h-dvh w-full flex items-start justify-start relative">
   <div class="xl:px-32 z-[2] px-8 pt-48">
-    <div class="text-4xl xl:text-6xl font-semibold mb-10">
+    <div class="text-4xl xl:text-6xl xl:leading-[1.05] font-extrabold mb-10">
       Driving Shared <br /> Mobility Forward, <br /> Clean & Decentralized
     </div>
     <Button
