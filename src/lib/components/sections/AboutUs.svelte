@@ -43,7 +43,7 @@
 	>
 		<div class="flex items-start gap-4">
 			<div class="flex items-center justify-center lg:h-10 lg:w-10 h-9">
-				<div class="lg:h-6 lg:w-6 h-4 w-4 rounded-full bg-primary"></div>
+				<div class="lg:h-5 lg:w-5 h-4 w-4 rounded-full bg-primary"></div>
 			</div>
 			<div class="flex flex-col gap-4">
 				<div class="font-bold lg:text-4xl text-3xl">Decentralized <br /> control</div>
@@ -54,7 +54,7 @@
 		</div>
 		<div class="flex items-start gap-4">
 			<div class="flex items-center justify-center lg:h-10 lg:w-10 h-9">
-				<div class="lg:h-6 lg:w-6 h-4 w-4 rounded-full bg-primary"></div>
+				<div class="lg:h-5 lg:w-5 h-4 w-4 rounded-full bg-primary"></div>
 			</div>
 			<div class="flex flex-col gap-4">
 				<div class="font-bold lg:text-4xl text-3xl">Premium experience, <br /> guaranteed</div>
@@ -66,7 +66,7 @@
 		</div>
 		<div class="flex items-start gap-4">
 			<div class="flex items-center justify-center lg:h-10 lg:w-10 h-9">
-				<div class="lg:h-6 lg:w-6 h-4 w-4 rounded-full bg-primary"></div>
+				<div class="lg:h-5 lg:w-5 h-4 w-4 rounded-full bg-primary"></div>
 			</div>
 			<div class="flex flex-col gap-4">
 				<div class="font-bold lg:text-4xl text-3xl">
