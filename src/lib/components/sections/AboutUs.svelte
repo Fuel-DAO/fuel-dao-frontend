@@ -23,6 +23,7 @@
 		</div>
 		<Button
 			href="https://fueldao.notion.site/FuelDAO-Whitepaper-8a43f3b69c04433fbc4499d25fd6aa28?pvs=25"
+      target="_blank"
       class="lg:text-xl lg:px-6 lg:py-3"
 		>
 			Our Whitepaper
