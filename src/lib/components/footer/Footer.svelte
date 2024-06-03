@@ -13,7 +13,7 @@
 		<div
 			class="lg:w-1/3 w-full flex justify-center items-start flex-col border-b lg:border-r self-stretch p-8 border-white"
 		>
-			<a href="mailto:kshitij@fueldao.io">kshitij@fueldao.io</a>
+			<a href="mailto:info@fueldao.io">info@fueldao.io</a>
 		</div>
 		<div
 			class="lg:w-1/3 w-full flex justify-center items-start self-stretch p-8 flex-col lg:border-r border-white"
