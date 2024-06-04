@@ -6,7 +6,8 @@
 	let submitted = false;
 
 	async function submitEmail() {
-		await fetch('hhttps://subscribefueldao-5nps3y6y6a-uc.a.run.app', {
+		submitted = true;
+		await fetch('https://subscribefueldao-5nps3y6y6a-uc.a.run.app', {
 			method: 'POST',
 			headers: {
 				'Content-Type': 'application/json'
@@ -15,7 +16,6 @@
 				email
 			})
 		});
-		submitted = true;
 	}
 </script>
 
@@ -39,7 +39,7 @@
 		<div class="lg:w-1/3 lg:flex hidden justify-center items-start self-stretch p-8 flex-col"></div>
 	</div>
 
-	<form class="flex flex-col lg:gap-4 gap-2">
+	<form on:submit|preventDefault={submitEmail} class="flex flex-col lg:gap-4 gap-2">
 		<div class="text-xl lg:text-5xl font-thin">Stay informed, join our newsletter</div>
 		{#if submitted}
 			<div class="lg:text-xl font-thin pt-2">Thank you for joining the newsletter!</div>
@@ -53,10 +53,7 @@
 					placeholder="yourname@email.com"
 					class="lg:text-2xl text-lg border border-r-0 border-t-0 border-white/50 focus:border-white transition-colors lg:p-2 p-1 border-l-0 bg-transparent focus:outline-none placeholder:text-white/30"
 				/>
-
-				<Button on:click={submitEmail} secondary class="lg:text-lg lg:py-3 lg:px-8 py-2 px-6"
-					>Submit</Button
-				>
+				<Button submit secondary class="lg:text-lg lg:py-3 lg:px-8 py-2 px-6">Submit</Button>
 			</div>
 		{/if}
 	</form>
