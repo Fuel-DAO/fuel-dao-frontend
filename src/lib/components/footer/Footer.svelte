@@ -34,7 +34,7 @@
 		<div
 			class="lg:w-1/3 w-full flex justify-center items-start self-stretch p-8 flex-col lg:border-r border-white"
 		>
-			<div>Barcelona, Spain</div>
+			<div>India</div>
 		</div>
 		<div class="lg:w-1/3 lg:flex hidden justify-center items-start self-stretch p-8 flex-col"></div>
 	</div>
