@@ -45,8 +45,5 @@ jobs:
           rm actions_identity.pem
           dfx identity use actions
 
-      - name: Get Principal ID
-        run: dfx identity get-principal
-
       - name: Deploy built webclient app on IC
         run: dfx deploy webclient --network ic
