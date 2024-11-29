@@ -15,7 +15,7 @@
 
 		<div class="flex flex-col gap-2 items-center">
 			<Icon name="electricity" class="w-14 h-14" />
-			<div class="text-center">Free charging across <br />Barcelona</div>
+			<div class="text-center">Free charging across <br />Mumbai</div>
 		</div>
 
 		<div class="flex flex-col gap-2 items-center">

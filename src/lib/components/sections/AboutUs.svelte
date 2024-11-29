@@ -14,7 +14,7 @@
 		<div class="lg:text-xl text-lg">
 			FuelDAO is a pioneering decentralized autonomous organization that offers eco-friendly
 			transport services like electric scooter rentals, ride-sharing, and fuel-efficient vehicle
-			leasing. We will be providing quality transport services to clients, starting with Barcelona
+			leasing. We will be providing quality transport services to clients, starting with Mumbai
 			and the surrounding area.
 		</div>
 		<div class="lg:text-xl text-lg">
