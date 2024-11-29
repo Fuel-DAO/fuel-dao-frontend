@@ -49,7 +49,7 @@ jobs:
         run: dfx identity get-principal
 
       - name: Canister Status
-        run: dfx canister status
+        run: dfx canister status --network ic --all
         
       - name: Deploy built webclient app on IC
         run: dfx deploy webclient --network ic
