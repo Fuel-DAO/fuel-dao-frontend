@@ -50,6 +50,9 @@ jobs:
 
       - name: Canister Status
         run: dfx canister status --network ic --all
+
+      - name: Canister Status of canister we need to upgrade
+        run: dfx canister status 67erj-tiaaa-aaaam-acnxa-cai --network ic
         
       - name: Deploy built webclient app on IC
         run: dfx deploy webclient --network ic
