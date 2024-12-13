@@ -48,17 +48,21 @@ jobs:
       - name: Get Principal ID
         run: dfx identity get-principal
 
-      - name: Canister Status
-        run: dfx canister status --network ic --all
 
-      - name: Canister Status of canister we need to upgrade
-        run: dfx canister status 67erj-tiaaa-aaaam-acnxa-cai --network ic
+      - name: Get Balance
+        run: dfx cycles balance --network ic
 
-      - name: List permission
-        run: dfx canister --network ic call 67erj-tiaaa-aaaam-acnxa-cai list_permitted '(record {permission = variant {Commit}})'
+      # - name: Canister Status
+      #   run: dfx canister status --network ic --all
 
-      - name: Grant permission 
-        run: dfx canister --network ic call 67erj-tiaaa-aaaam-acnxa-cai grant_permission '(record { to_principal = principal "pbgix-ewvzz-xoxul-trr77-xbet3-7zvs3-ga55x-ocakc-7wej2-uccjk-rae"; permission = variant { Commit } })'
+      # - name: Canister Status of canister we need to upgrade
+      #   run: dfx canister status 67erj-tiaaa-aaaam-acnxa-cai --network ic
+
+      # - name: List permission
+      #   run: dfx canister --network ic call 67erj-tiaaa-aaaam-acnxa-cai list_permitted '(record {permission = variant {Commit}})'
+
+      # - name: Grant permission 
+      #   run: dfx canister --network ic call 67erj-tiaaa-aaaam-acnxa-cai grant_permission '(record { to_principal = principal "pbgix-ewvzz-xoxul-trr77-xbet3-7zvs3-ga55x-ocakc-7wej2-uccjk-rae"; permission = variant { Commit } })'
         
-      - name: Deploy built webclient app on IC
-        run: dfx deploy webclient --network ic
+      # - name: Deploy built webclient app on IC
+      #   run: dfx deploy webclient --network ic
